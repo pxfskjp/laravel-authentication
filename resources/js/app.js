@@ -4,8 +4,11 @@ import App from './App';
 import store from './store';
 import router from './router';
 
+import VeeValidate from 'vee-validate';
 import BootstrapVue from 'bootstrap-vue';
 
+
+Vue.use(VeeValidate);
 Vue.use(BootstrapVue);
 
 

@@ -1,8 +1,8 @@
 <template>
-    <div id="app">
-        <HeaderNav></HeaderNav>
+    <div>
+        <HeaderNav />
         <router-view></router-view>
-        <FooterNav></FooterNav>
+        <FooterNav />
     </div>
 </template>
 <script>
