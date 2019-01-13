@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,\Laravel\Passport\HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -27,4 +27,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
 }
