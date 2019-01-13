@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import App from '../App'
+import Login from '../views/Login'
+import Register from '../views/Register'
+
 Vue.use(VueRouter);
 
 export default new VueRouter({
@@ -8,17 +12,17 @@ export default new VueRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('@/App')
+            component: () => App
         },
         {
             path: '/login',
             name: 'login',
-            component: () => import('@/views/Login')
+            component: () => Login
         },
         {
             path: '/register',
             name: 'register',
-            component: () => import('@/views/Register')
+            component: () => Register
 
         }
     ]
