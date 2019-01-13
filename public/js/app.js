@@ -47741,6 +47741,9 @@ var ApiService = {
   init: function init() {
     vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_2___default.a, axios__WEBPACK_IMPORTED_MODULE_1___default.a);
     vue__WEBPACK_IMPORTED_MODULE_0___default.a.axios.defaults.baseURL = _common_config__WEBPACK_IMPORTED_MODULE_4__["API_URL"];
+  },
+  setHeader: function setHeader() {
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.axios.defaults.headers.common["Authorization"] = "Token ".concat(_common_jwt_service__WEBPACK_IMPORTED_MODULE_3__["default"].getToken());
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (ApiService);
