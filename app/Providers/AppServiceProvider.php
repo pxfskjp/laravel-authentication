@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\CheckUserRole;
+use App\Role\RoleChecker;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \Laravel\Passport\Passport::ignoreMigrations();
+        $this->app->singleton(CheckUserRole::class, function(Application $app) {
+            return new CheckUserRole(
+                $app->make(RoleChecker::class)
+            );
+        });
     }
 }

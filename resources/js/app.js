@@ -7,9 +7,14 @@ import router from './router';
 import VeeValidate from 'vee-validate';
 import BootstrapVue from 'bootstrap-vue';
 
+import ApiService from './api/api.service';
+
 
 Vue.use(VeeValidate);
 Vue.use(BootstrapVue);
+
+
+ApiService.init();
 
 
 const app = new Vue({
