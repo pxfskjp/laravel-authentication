@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\LoginService;
+use App\Services\RegisterService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,6 +34,16 @@ class LayerServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Services\Contracts\AuthenticationService',
             'App\Services\LoginService'
+        );
+
+        $this->app->singleton('App\Services\RegisterService', function (Application $app) {
+            return new RegisterService(
+                $app->make('App\Repositories\UserRepository')
+            );
+        });
+        $this->app->bind(
+            'App\Services\Contracts\RegistrationService',
+            'App\Services\RegisterService'
         );
     }
 }

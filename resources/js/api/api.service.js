@@ -12,7 +12,10 @@ const ApiService = {
     },
 
     setHeader(){
-        Vue.axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
+        Vue.axios.defaults.headers.common = {
+            'X-Requested-With': 'XMLHttpRequest',
+            "Authorization":`Bearer ${JwtService.getToken()}`
+        };
     },
 
     get(resource, slug = "") {

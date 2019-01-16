@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        //Passport::ignoreMigrations();
         $this->app->singleton(CheckUserRole::class, function(Application $app) {
             return new CheckUserRole(
                 $app->make(RoleChecker::class)

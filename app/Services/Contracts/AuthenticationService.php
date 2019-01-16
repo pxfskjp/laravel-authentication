@@ -16,5 +16,5 @@ interface AuthenticationService
 {
     public function login(LoginRequest $request): array;
 
-    public function logout(Request $request);
+    public function logout(Request $request): array;
 }

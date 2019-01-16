@@ -1883,6 +1883,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_actions_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/actions.type */ "./resources/js/store/actions.type.js");
+/* harmony import */ var _api_api_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/api.service */ "./resources/js/api/api.service.js");
 //
 //
 //
@@ -1928,6 +1929,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1955,6 +1960,17 @@ __webpack_require__.r(__webpack_exports__);
             });
           });
         }
+      });
+    },
+    getJWT: function getJWT(identity, password) {
+      _api_api_service__WEBPACK_IMPORTED_MODULE_1__["default"].post("oauth/token", {
+        user: this.form
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+      }).catch(function (_ref2) {
+        var response = _ref2.response;
+        console.log(response.data);
       });
     }
   }
@@ -32528,6 +32544,22 @@ var render = function() {
               )
             ],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-form-group",
+            { staticClass: "text-center" },
+            [
+              _c(
+                "b-button",
+                {
+                  attrs: { type: "button", variant: "danger" },
+                  on: { click: _vm.getJWT }
+                },
+                [_vm._v("GET JWT TOKEN")]
+              )
+            ],
+            1
           )
         ],
         1
@@ -47770,7 +47802,10 @@ var ApiService = {
     vue__WEBPACK_IMPORTED_MODULE_0___default.a.axios.defaults.baseURL = _common_config__WEBPACK_IMPORTED_MODULE_4__["API_URL"];
   },
   setHeader: function setHeader() {
-    vue__WEBPACK_IMPORTED_MODULE_0___default.a.axios.defaults.headers.common["Authorization"] = "Bearer ".concat(_common_jwt_service__WEBPACK_IMPORTED_MODULE_3__["default"].getToken());
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.axios.defaults.headers.common = {
+      'X-Requested-With': 'XMLHttpRequest',
+      "Authorization": "Bearer ".concat(_common_jwt_service__WEBPACK_IMPORTED_MODULE_3__["default"].getToken())
+    };
   },
   get: function get(resource) {
     var slug = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
@@ -48139,6 +48174,7 @@ var actions = (_actions = {}, _defineProperty(_actions, _actions_type__WEBPACK_I
       user: credentials
     }).then(function (_ref3) {
       var data = _ref3.data;
+      console.log(data);
       context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["SET_AUTH"], data.userId);
       resolve(data);
     }).catch(function (_ref4) {

@@ -31,7 +31,7 @@ class LoginController extends Controller
      * @param LoginRequest $request
      * @return integer
      */
-    public function signIn(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $result = $this->authenticationService->login($request);
         return response()->json($result, $result['code']);

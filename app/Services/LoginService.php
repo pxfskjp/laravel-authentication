@@ -6,6 +6,7 @@ use App\Repositories\Contracts\Repository;
 use App\Services\Contracts\AuthenticationService;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginService implements AuthenticationService
 {
@@ -22,10 +23,10 @@ class LoginService implements AuthenticationService
             ? 'email' : 'login';
         $credentials = [
             $identity => $request->user['identity'],
-            'password' => $request->user['password']
+            'password' => Hash::make($request->user['password'])
         ];
         return auth()->attempt($credentials)
-            ? ['token' => auth()->user()->createToken('testingToken'),
+            ? ['token' => auth()->user()->createToken('AuthToken')->token,
                 'userId' => auth()->user()->id,
                 'status' => 'success',
                 'code' => 200]
@@ -34,7 +35,7 @@ class LoginService implements AuthenticationService
                 'code' => 401];
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): array
     {
 
     }

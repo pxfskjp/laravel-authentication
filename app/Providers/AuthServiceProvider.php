@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,8 +26,25 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Passport::ignoreMigrations();
-        Passport::routes();
+
+        Passport::routes(function ($router) {
+                $router->forAccessTokens();
+                // Uncomment for allowing personal access tokens
+                // $router->forPersonalAccessTokens();
+                //$router->forTransientTokens();
+        });
+
+        /*
+        Route::group([ 'middleware' => 'cors'], function() {
+            Passport::routes(function ($router) {
+                $router->forAccessTokens();
+                // Uncomment for allowing personal access tokens
+                // $router->forPersonalAccessTokens();
+                //$router->forTransientTokens();
+            });
+        });
+        */
+
         Passport::tokensExpireIn(now()->addDays(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));
     }

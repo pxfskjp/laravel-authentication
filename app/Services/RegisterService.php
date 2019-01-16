@@ -12,6 +12,7 @@ namespace App\Services;
 use App\Http\Requests\RegistrationRequest;
 use App\Repositories\Contracts\Repository;
 use App\Services\Contracts\RegistrationService;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterService implements RegistrationService
 {
@@ -22,13 +23,14 @@ class RegisterService implements RegistrationService
         $this->repository = $repository;
     }
 
-
     public function register(RegistrationRequest $request): array
     {
-        $userId = $this->repository->create($request)->id;
-        return $userId
-            ? ['token' => auth()->user()->createToken('testingToken'),
-                'userId' => $userId,
+        $user = $request->user;
+        $user['password'] = Hash::make($user['password']);
+        $user = $this->repository->create($user);
+        return $user->id
+            ? ['token' => $user->createToken('AuthToken')->token->id,
+                'userId' => $user->id,
                 'status' => 'success',
                 'code' => 200]
             : ['status' => 'error',

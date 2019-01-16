@@ -42,6 +42,7 @@
       25 => 'App\\Providers\\RouteServiceProvider',
       26 => 'App\\Providers\\RepositoryServiceProvider',
       27 => 'App\\Providers\\LayerServiceProvider',
+      28 => 'Laravel\\Passport\\PassportServiceProvider',
     ),
     'aliases' => 
     array (
@@ -206,6 +207,29 @@
       ),
     ),
     'prefix' => 'laravel_cache',
+  ),
+  'cors' => 
+  array (
+    'supportsCredentials' => false,
+    'allowedOrigins' => 
+    array (
+      0 => '*',
+    ),
+    'allowedOriginsPatterns' => 
+    array (
+    ),
+    'allowedHeaders' => 
+    array (
+      0 => '*',
+    ),
+    'allowedMethods' => 
+    array (
+      0 => '*',
+    ),
+    'exposedHeaders' => 
+    array (
+    ),
+    'maxAge' => 0,
   ),
   'database' => 
   array (

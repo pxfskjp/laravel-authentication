@@ -39,12 +39,16 @@
             <b-form-group class="text-center">
                 <b-button type="submit" variant="primary">Sign-in</b-button>
             </b-form-group>
+            <b-form-group class="text-center">
+                <b-button v-on:click="getJWT" type="button" variant="danger">GET JWT TOKEN</b-button>
+            </b-form-group>
         </b-form>
 
     </div>
 </template>
 <script>
     import { LOGIN } from "../store/actions.type";
+    import ApiService from "../api/api.service";
 
     export default {
         data: () => ({
@@ -59,9 +63,18 @@
                     if (result) {
                         console.log('LOGIN attempt - ' + identity + ' - ' + password);
                         this.$store
-                            .dispatch(LOGIN, { identity, password })
-                            .then(() => this.$router.push({ name: "home" }));
+                            .dispatch(LOGIN, {identity, password})
+                            .then(() => this.$router.push({name: "home"}));
                     }
+                });
+            },
+            getJWT(identity, password) {
+                ApiService.post("oauth/token", {
+                    user: this.form
+                }).then(({data}) => {
+                    console.log(data);
+                }).catch(({response}) => {
+                    console.log(response.data);
                 });
             }
         }
