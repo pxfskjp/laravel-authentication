@@ -38,7 +38,6 @@
     34 => 'App\\Providers\\RouteServiceProvider',
     35 => 'App\\Providers\\RepositoryServiceProvider',
     36 => 'App\\Providers\\LayerServiceProvider',
-    37 => 'Laravel\\Passport\\PassportServiceProvider',
   ),
   'eager' => 
   array (
@@ -65,7 +64,6 @@
     20 => 'App\\Providers\\RouteServiceProvider',
     21 => 'App\\Providers\\RepositoryServiceProvider',
     22 => 'App\\Providers\\LayerServiceProvider',
-    23 => 'Laravel\\Passport\\PassportServiceProvider',
   ),
   'deferred' => 
   array (

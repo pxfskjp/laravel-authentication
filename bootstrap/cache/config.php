@@ -42,7 +42,6 @@
       25 => 'App\\Providers\\RouteServiceProvider',
       26 => 'App\\Providers\\RepositoryServiceProvider',
       27 => 'App\\Providers\\LayerServiceProvider',
-      28 => 'Laravel\\Passport\\PassportServiceProvider',
     ),
     'aliases' => 
     array (
@@ -97,11 +96,8 @@
       ),
       'api' => 
       array (
-        'api' => 
-        array (
-          'driver' => 'passport',
-          'provider' => 'users',
-        ),
+        'driver' => 'passport',
+        'provider' => 'users',
       ),
     ),
     'providers' => 

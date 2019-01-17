@@ -48,7 +48,6 @@
 </template>
 <script>
     import { LOGIN } from "../store/actions.type";
-    import ApiService from "../api/api.service";
 
     export default {
         data: () => ({
@@ -66,15 +65,6 @@
                             .dispatch(LOGIN, {identity, password})
                             .then(() => this.$router.push({name: "home"}));
                     }
-                });
-            },
-            getJWT(identity, password) {
-                ApiService.post("oauth/token", {
-                    user: this.form
-                }).then(({data}) => {
-                    console.log(data);
-                }).catch(({response}) => {
-                    console.log(response.data);
                 });
             }
         }
