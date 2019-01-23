@@ -7,15 +7,24 @@ import {SET_AUTH, SET_ERROR, RESET_AUTH} from "../store/mutations.type";
 import {LOGIN, LOGOUT, REGISTER} from "./actions.type";
 
 const state = {
-    errors: null,
-    user: {},
+    token: null,
+    errors: {
+        login: [],
+        register: []
+    },
     userId: null,
     isAuthenticated: !!JwtService.getToken()
 };
 
 const getters = {
+    getRegisterErrors(){
+        return state.errors.register;
+    },
+    getLoginErrors(){
+        return state.errors.login;
+    },
     currentUser(state){
-        return state.user;
+        return state.userId;
     },
     isAuthenticated(state){
         return state.isAuthenticated;
@@ -23,33 +32,41 @@ const getters = {
 };
 
 const mutations = {
-    [SET_ERROR](state, error) {
-        state.errors = error;
+    [SET_ERROR](state, {target, message}) {
+        console.log(message);
+        state.errors[target] = [];
+        state.errors[target].push({message: message})
     },
-    [SET_AUTH](state, userId) {
+    [SET_AUTH](state, data) {
         state.isAuthenticated = true;
-        state.userId = userId;
-        state.errors = {};
-        JwtService.saveToken(state.token);
+        state.userId = data.userId;
+        state.token = data.token;
+        JwtService.setToken(data.token);
     },
     [RESET_AUTH](state) {
         state.isAuthenticated = false;
-        state.user = {};
-        state.errors = {};
+        state.userId = null;
+        state.token = null;
         JwtService.unsetToken();
     }
 };
 
 const actions = {
     [LOGIN](context, credentials) {
-        return new Promise(resolve => {
-            ApiService.post("api/users/login", { user: credentials })
-                .then(({ data }) => {
-                    context.commit(SET_AUTH, data.userId);
+        return new Promise((resolve, reject) => {
+            ApiService.post("api/users/login", {user: credentials})
+                .then(({data}) => {
+                    context.commit(
+                        SET_AUTH, {userId: data.userId, token: data.token}
+                    );
                     resolve(data);
                 })
-                .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.errors);
+                .catch(({response}) => {
+                    context.commit(
+                        SET_ERROR,
+                        {target: 'login', message: response.data.error}
+                    );
+                    reject(response);
                 });
         });
     },
@@ -57,16 +74,17 @@ const actions = {
         context.commit(RESET_AUTH);
     },
     [REGISTER](context, credentials) {
-        console.log(credentials);
         return new Promise((resolve, reject) => {
-            ApiService.post("api/users", { user: credentials })
-                .then(({ data }) => {
-                    console.log(data);
-                    context.commit(SET_AUTH, data.userId);
+            ApiService.post("api/users", {user: credentials})
+                .then(({data}) => {
+                    context.commit(SET_AUTH, {userId: data.userId, token: data.token});
                     resolve(data);
                 })
-                .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.errors);
+                .catch(({response}) => {
+                    context.commit(
+                        SET_ERROR,
+                        {target: 'register', message: response.data.error}
+                    );
                     reject(response);
                 });
         });

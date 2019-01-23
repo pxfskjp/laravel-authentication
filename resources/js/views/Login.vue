@@ -2,6 +2,14 @@
     <div id="loginForm" class="pt-5">
         <b-form v-on:submit.prevent="signIn(form.identity,form.password)"
                 class="mx-auto justify-content-center w-50 ">
+            <b-form-group id="loginErrors" class="errorsBlock"
+                          v-show="this.$store.getters.getLoginErrors.length">
+                <ul>
+                    <li v-for="error in this.$store.getters.getLoginErrors">
+                        {{ error.message }}
+                    </li>
+                </ul>
+            </b-form-group>
             <b-form-group id="loginGroup"
                           horizontal
                           label="Login: "
@@ -56,7 +64,6 @@
             signIn(identity, password){
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        console.log('LOGIN attempt - ' + identity + ' - ' + password);
                         this.$store
                             .dispatch(LOGIN, {identity, password})
                             .then(() => this.$router.push({name: "home"}));

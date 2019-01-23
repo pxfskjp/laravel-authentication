@@ -1,6 +1,14 @@
 <template>
     <div id="loginForm" class="pt-5">
         <b-form v-on:submit.prevent="signUp" class="mx-auto justify-content-center w-50 ">
+            <b-form-group id="registerErrors" class="errorsBlock"
+                          v-show="this.$store.getters.getRegisterErrors.length">
+                <ul>
+                    <li v-for="error in this.$store.getters.getRegisterErrors">
+                        {{ error.message }}
+                    </li>
+                </ul>
+            </b-form-group>
             <b-form-group horizontal
                           label="Login: "
                           label-for="login">
@@ -85,7 +93,6 @@
             signUp(){
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        console.log('Registration attempt.');
                         this.$store
                             .dispatch(REGISTER, this.form)
                             .then(() => this.$router.push({ name: "home" }));

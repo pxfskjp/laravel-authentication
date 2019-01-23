@@ -4,7 +4,7 @@ export const getToken = () => {
     return window.localStorage.getItem(ID_API_TOKEN)
 };
 
-export const setToken = (token) => {
+export const setToken = token => {
     window.localStorage.setItem(ID_API_TOKEN, token);
 };
 

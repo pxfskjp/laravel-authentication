@@ -4,7 +4,8 @@
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
         <b-navbar-brand href="#">
-            <img :src="'../images/avatars/avatar.jpg'" width="30" height="30" alt="" style="padding-right: 3px" class="d-inline-block align-top">
+            <img :src="'../images/avatars/avatar.jpg'" width="30" height="30"
+                 alt="" style="padding-right: 3px" class="d-inline-block align-top">
             Corporate web-chat
         </b-navbar-brand>
 
@@ -19,14 +20,14 @@
                 </b-nav-form>
                 -->
                 <b-nav-item>
-                    <router-link to="/login">
+                    <router-link to="/login" v-show="!isAuthenticated()">
                         <b-button size="sm" class="my-2 my-sm-0 btn-success" type="button">
                             Sign-in
                         </b-button>
                     </router-link>
                 </b-nav-item>
                 <b-nav-item>
-                    <router-link to="/register">
+                    <router-link to="/register" v-show="!isAuthenticated()">
                         <b-button size="sm" class="my-2 my-sm-0 btn-warning" type="button">
                             Sign-up
                         </b-button>
@@ -41,7 +42,7 @@
                 -->
 
                 <!-- Settings configuration-->
-                <b-nav-item-dropdown right no-caret>
+                <b-nav-item-dropdown right no-caret v-show="isAuthenticated()">
                     <template slot="button-content">
                         <div class="profile-photo-small">
                             <img :src="'../images/avatars/avatar.jpg'"  width="30" height="30"
@@ -49,17 +50,29 @@
                         </div>
                     </template>
                     <b-dropdown-item href="#">Profile</b-dropdown-item>
-                    <b-dropdown-item href="#">Signout</b-dropdown-item>
+                    <b-dropdown-item v-on:click="logout" href="#">Logout</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>
 </template>
 <script>
+    import { LOGOUT } from "../store/actions.type";
+
     export default {
         data(){
             return {
-                message: ''
+
+            }
+        },
+        methods: {
+            logout(){
+                this.$store
+                    .dispatch(LOGOUT)
+                    .then(() => this.$router.push({name: "home"}));
+            },
+            isAuthenticated(){
+                return this.$store.getters.isAuthenticated;
             }
         }
     }

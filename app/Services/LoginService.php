@@ -19,20 +19,19 @@ class LoginService implements AuthenticationService
 
     public function login(LoginRequest $request)
     {
-        $passportResponse = $this->getTokenRequest($request);
+        $passportResponse = $this->getToken($request);
         $responseContent = json_decode($passportResponse->getContent(), true);
-        $this->getAuthenticatedId($responseContent['access_token']);
-        return $passportResponse->status() === 200
+        return !isset($responseContent['error']) && $passportResponse->status() === 200
             ? ['token' => $responseContent['access_token'],
-                'userId' => 'test',
+                'userId' => $this->getAuthenticatedId($responseContent['access_token']),
                 'status' => 'success',
                 'code' => 200]
             : ['status' => 'error',
-                'error' => $responseContent['error'],
+                'error' => $responseContent['message'],
                 'code' => 401];
     }
 
-    private function getTokenRequest($request)
+    private function getToken($request)
     {
         $tokenRequest = Request::create(
             config('app.url') . config('auth.passport.token.link'),
@@ -50,16 +49,13 @@ class LoginService implements AuthenticationService
         return Route::dispatch($tokenRequest);
     }
 
-    private function getAuthenticatedId($token)
+    private function getAuthenticatedId($token): int
     {
-        $request =  Request::create(config('app.url') . 'api/user/id','GET');
+        $request =  Request::create(config('app.url') . '/api/user/id','GET');
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Authorization', 'Bearer ' . $token);
         app()->instance('request', $request);
-
-        echo json_encode(Route::dispatch($request)->getContent());
-        die();
-        return Route::dispatch($request);
+        return Route::dispatch($request)->getData()->authenticated;
 
     }
 

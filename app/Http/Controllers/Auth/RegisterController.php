@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Controllers\Controller;
 use App\Services\Contracts\RegistrationService;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
 {
-    use RegistersUsers;
 
     protected $service;
 
@@ -36,6 +34,5 @@ class RegisterController extends Controller
     {
         $result = $this->service->register($request);
         return response()->json($result, $result['code']);
-
     }
 }
