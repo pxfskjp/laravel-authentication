@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Services\Contracts\AuthenticationService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class LoginController extends Controller
 {
@@ -26,25 +26,25 @@ class LoginController extends Controller
     }
 
     /**
-     * Login user .
+     * Login user.
      *
      * @param LoginRequest $request
-     * @return integer
+     * @return JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         $result = $this->authenticationService->login($request);
         return response()->json($result, $result['code']);
     }
 
     /**
-     * Logout user .
+     * Logout user current user.
      *
-     * @param LoginRequest $request
-     * @return integer
+     * @return JsonResponse
      */
-    public function logOff(Request $request)
+    public function logout(): JsonResponse
     {
-        return '';
+        $result = $this->authenticationService->logout();
+        return response()->json($result, $result['code']);
     }
 }

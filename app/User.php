@@ -29,6 +29,18 @@ class User extends Authenticatable
         'password'
     ];
 
+    /**
+     * Laravel passport - identity custom column selection
+     *
+     * @var string
+     * @return User
+     */
+    public function findForPassport($identity) {
+        $columnName = filter_var($identity, FILTER_VALIDATE_EMAIL)
+            ? 'email' : 'login';
+        return $this->where($columnName, $identity)->first();
+    }
+
     public function messages(){
         return $this->hasMany('App\Message');
     }

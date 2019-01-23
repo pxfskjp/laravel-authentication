@@ -1927,10 +1927,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -32528,22 +32524,6 @@ var render = function() {
                 "b-button",
                 { attrs: { type: "submit", variant: "primary" } },
                 [_vm._v("Sign-in")]
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-form-group",
-            { staticClass: "text-center" },
-            [
-              _c(
-                "b-button",
-                {
-                  attrs: { type: "button", variant: "danger" },
-                  on: { click: _vm.getJWT }
-                },
-                [_vm._v("GET JWT TOKEN")]
               )
             ],
             1

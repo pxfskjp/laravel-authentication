@@ -4,7 +4,7 @@
     'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
-    'url' => 'http://localhost',
+    'url' => 'http://localhost:8000',
     'asset_url' => NULL,
     'timezone' => 'UTC',
     'locale' => 'en',
@@ -115,6 +115,21 @@
         'provider' => 'users',
         'table' => 'password_resets',
         'expire' => 60,
+      ),
+    ),
+    'passport' => 
+    array (
+      'token' => 
+      array (
+        'link' => '/oauth/token',
+        'expire' => '15',
+        'refresh' => '30',
+      ),
+      'grant' => 'password',
+      'client' => 
+      array (
+        'id' => '2',
+        'secret' => 'Iz758aHXTtfX7Ku4Nkbnuc9NdLjkmn1hzTWfJN8f',
       ),
     ),
   ),
@@ -317,7 +332,7 @@
       array (
         'driver' => 'local',
         'root' => '/home/finatoros/PhpstormProjects/laravel-passport-vue-redis-chat/storage/app/public',
-        'url' => 'http://localhost/storage',
+        'url' => 'http://localhost:8000/storage',
         'visibility' => 'public',
       ),
       's3' => 

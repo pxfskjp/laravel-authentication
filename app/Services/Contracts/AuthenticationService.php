@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 interface AuthenticationService
 {
-    public function login(LoginRequest $request): array;
+    public function login(LoginRequest $request);
 
-    public function logout(Request $request): array;
+    public function logout(): array;
 }

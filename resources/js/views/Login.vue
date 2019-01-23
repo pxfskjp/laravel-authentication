@@ -34,13 +34,9 @@
                         {{ errors.first('password') }}
                     </span>
                 </b-form-row>
-
             </b-form-group>
             <b-form-group class="text-center">
                 <b-button type="submit" variant="primary">Sign-in</b-button>
-            </b-form-group>
-            <b-form-group class="text-center">
-                <b-button v-on:click="getJWT" type="button" variant="danger">GET JWT TOKEN</b-button>
             </b-form-group>
         </b-form>
 

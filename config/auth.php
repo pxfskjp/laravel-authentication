@@ -99,4 +99,23 @@ return [
         ],
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Laravel Passport
+    |--------------------------------------------------------------------------
+    */
+
+    'passport' => [
+        'token' => [
+            'link' => env('PASSPORT_TOKEN_VALIDATION_PATH'),
+            'expire' => env('PASSPORT_TOKEN_EXPIRE'),
+            'refresh' => env('PASSPORT_TOKEN_REFRESH'),
+        ],
+        'grant' => env('PASSPORT_GRANT_TYPE'),
+        'client' => [
+            'id' => env('PASSPORT_CLIENT_ID'),
+            'secret' => env('PASSPORT_CLIENT_SECRET')
+        ],
+    ]
 ];

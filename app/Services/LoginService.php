@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Repositories\Contracts\Repository;
 use App\Services\Contracts\AuthenticationService;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 
 class LoginService implements AuthenticationService
 {
@@ -17,26 +17,58 @@ class LoginService implements AuthenticationService
         $this->repository = $repository;
     }
 
-    public function login(LoginRequest $request): array
+    public function login(LoginRequest $request)
     {
-        $identity = filter_var($request->input('identity'), FILTER_VALIDATE_EMAIL)
-            ? 'email' : 'login';
-        $credentials = [
-            $identity => $request->user['identity'],
-            'password' => Hash::make($request->user['password'])
-        ];
-        return auth()->attempt($credentials)
-            ? ['token' => auth()->user()->createToken('AuthToken')->token,
-                'userId' => auth()->user()->id,
+        $passportResponse = $this->getTokenRequest($request);
+        $responseContent = json_decode($passportResponse->getContent(), true);
+        $this->getAuthenticatedId($responseContent['access_token']);
+        return $passportResponse->status() === 200
+            ? ['token' => $responseContent['access_token'],
+                'userId' => 'test',
                 'status' => 'success',
                 'code' => 200]
             : ['status' => 'error',
-                'message' => 'Login error occurs!',
+                'error' => $responseContent['error'],
                 'code' => 401];
     }
 
-    public function logout(Request $request): array
+    private function getTokenRequest($request)
     {
+        $tokenRequest = Request::create(
+            config('app.url') . config('auth.passport.token.link'),
+            'POST',
+            [
+                'grant_type' => config('auth.passport.grant'),
+                'client_id' => config('auth.passport.client.id'),
+                'client_secret' => config('auth.passport.client.secret'),
+                'username' => $request->user['identity'],
+                'password' => $request->user['password'],
+                'scope' => '*'
+            ]
+        );
+        app()->instance('request', $tokenRequest);
+        return Route::dispatch($tokenRequest);
+    }
 
+    private function getAuthenticatedId($token)
+    {
+        $request =  Request::create(config('app.url') . 'api/user/id','GET');
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer ' . $token);
+        app()->instance('request', $request);
+
+        echo json_encode(Route::dispatch($request)->getContent());
+        die();
+        return Route::dispatch($request);
+
+    }
+
+    public function logout(): array
+    {
+        return auth()->user()->token()->revoke()
+            ? ['status' => 'success','code' => 200]
+            : ['status' => 'error',
+                'error' => 'Logout unsuccessful. Try again later.',
+                'code' => 400];
     }
 }
