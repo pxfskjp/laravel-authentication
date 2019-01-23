@@ -7,5 +7,6 @@ class InitialController extends Controller
 {
     public function init(){
         return view()->make('welcome');
+
     }
 }
