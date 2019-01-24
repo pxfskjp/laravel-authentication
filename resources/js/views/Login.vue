@@ -60,7 +60,6 @@
         }),
         methods: {
             getErrors(){
-                console.log('LOL');
                 return this.$store.getters.getErrors.login;
             },
             containsErrors(){

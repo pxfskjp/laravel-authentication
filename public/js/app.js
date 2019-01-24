@@ -1948,8 +1948,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1961,6 +1959,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    getErrors: function getErrors() {
+      return this.$store.getters.getErrors.login;
+    },
+    containsErrors: function containsErrors() {
+      console.log(this.$store.getters.getErrors.login.length > 0);
+      return this.$store.getters.getErrors.login.length > 0;
+    },
     signIn: function signIn(identity, password) {
       var _this = this;
 
@@ -32563,28 +32568,25 @@ var render = function() {
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: this.$store.getters.getLoginErrors.length,
-                  expression: "this.$store.getters.getLoginErrors.length"
+                  value: _vm.containsErrors(),
+                  expression: "containsErrors()"
                 }
               ],
               staticClass: "errorsBlock",
               attrs: { id: "loginErrors" }
             },
-            [
-              _c(
-                "ul",
-                _vm._l(this.$store.getters.getLoginErrors, function(error) {
-                  return _c("li", [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(error.message) +
-                        "\n                "
-                    )
-                  ])
-                }),
-                0
-              )
-            ]
+            _vm._l(_vm.getErrors(), function(error) {
+              return _c("ul", [
+                _c("li", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(error.message) +
+                      "\n                "
+                  )
+                ])
+              ])
+            }),
+            0
           ),
           _vm._v(" "),
           _c(
@@ -46947,6 +46949,100 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var DEFAULT_SHARING_KEY = 'vuex-mutations-sharer';
+var DEFAULT_STORAGE_KEY = 'vuex-mutation-sharer-storage';
+
+exports.default = function (_ref) {
+  var predicate = _ref.predicate,
+      _ref$sharingKey = _ref.sharingKey,
+      sharingKey = _ref$sharingKey === undefined ? DEFAULT_SHARING_KEY : _ref$sharingKey,
+      _ref$storageKey = _ref.storageKey,
+      storageKey = _ref$storageKey === undefined ? DEFAULT_STORAGE_KEY : _ref$storageKey,
+      _ref$timeout = _ref.timeout,
+      timeout = _ref$timeout === undefined ? 0 : _ref$timeout;
+  return function (store) {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      console.error('[vuex-shared-mutations] localStorage is not available. Disabling plugin');
+      return;
+    }
+
+    if (typeof predicate !== 'function' && !Array.isArray(predicate)) {
+      console.error('[vuex-shared-mutations] Predicate should be either array of mutation names or function. Disabling plugin');
+      return;
+    }
+
+    try {
+      window.localStorage.setItem('vuex-mutations-sharer__test', 'test');
+      window.localStorage.removeItem('vuex-mutations-sharer__test');
+    } catch (e) {
+      console.error('[vuex-shared-mutations] Unable to use setItem on localStorage. Disabling plugin');
+      return;
+    }
+
+    var committing = false;
+
+    var shouldShare = typeof predicate === 'function' ? predicate : function (mutation) {
+      return predicate.indexOf(mutation.type) !== -1;
+    };
+
+    store.subscribe(function (mutation, state) {
+      if (committing) return;
+      if (shouldShare(mutation, state)) {
+        try {
+          // IE11 does not produce storage event in case of big payload
+          // We are hacking around this by using two entries - one to actually
+          // store relevant data - and one for notifications
+          window.localStorage.setItem(storageKey, JSON.stringify(mutation));
+          window.localStorage.setItem(sharingKey, 'notification-' + Date.now());
+          if (timeout) {
+            setTimeout(function () {
+              window.localStorage.removeItem(sharingKey);
+              window.localStorage.removeItem(storageKey);
+            }, timeout);
+          }
+        } catch (e) {
+          console.error('[vuex-shared-mutations] Unable to use setItem on localStorage');
+          console.error(e);
+        }
+      }
+    });
+
+    window.addEventListener('storage', function (event) {
+      if (!event.newValue) return;
+      if (event.key !== sharingKey) return;
+
+      try {
+        var mutation = JSON.parse(window.localStorage.getItem(storageKey));
+        committing = true;
+        store.commit(mutation.type, mutation.payload);
+      } catch (error) {
+        console.error('[vuex-shared-mutations] Unable to parse shared mutation data');
+        console.error(event.newValue, error);
+      } finally {
+        committing = false;
+      }
+    });
+  };
+};
+
+module.exports = exports['default'];
+
+
+/***/ }),
+
 /***/ "./node_modules/vuex/dist/vuex.esm.js":
 /*!********************************************!*\
   !*** ./node_modules/vuex/dist/vuex.esm.js ***!
@@ -48292,7 +48388,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  mode: 'history',
+  // mode: 'history',
   routes: [{
     path: '/',
     name: 'home',
@@ -48374,21 +48470,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var state = {
-  token: null,
-  errors: {
-    login: [],
-    register: []
-  },
-  userId: null,
-  isAuthenticated: !!_common_jwt_service__WEBPACK_IMPORTED_MODULE_1__["default"].getToken()
+
+var getDefaultState = function getDefaultState() {
+  return {
+    token: null,
+    errors: {
+      login: [],
+      register: []
+    },
+    userId: null,
+    isAuthenticated: !!_common_jwt_service__WEBPACK_IMPORTED_MODULE_1__["default"].getToken()
+  };
 };
+
+var state = getDefaultState();
 var getters = {
-  getRegisterErrors: function getRegisterErrors() {
-    return state.errors.register;
-  },
-  getLoginErrors: function getLoginErrors() {
-    return state.errors.login;
+  getErrors: function getErrors(state) {
+    return state.errors;
   },
   currentUser: function currentUser(state) {
     return state.userId;
@@ -48397,10 +48495,11 @@ var getters = {
     return state.isAuthenticated;
   }
 };
-var mutations = (_mutations = {}, _defineProperty(_mutations, _store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["SET_ERROR"], function (state, _ref) {
+var mutations = (_mutations = {}, _defineProperty(_mutations, _store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["CLEAR_ERRORS"], function (state) {
+  state.errors = [];
+}), _defineProperty(_mutations, _store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["SET_ERROR"], function (state, _ref) {
   var target = _ref.target,
       message = _ref.message;
-  console.log(message);
   state.errors[target] = [];
   state.errors[target].push({
     message: message
@@ -48411,10 +48510,8 @@ var mutations = (_mutations = {}, _defineProperty(_mutations, _store_mutations_t
   state.token = data.token;
   _common_jwt_service__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token);
 }), _defineProperty(_mutations, _store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["RESET_AUTH"], function (state) {
-  state.isAuthenticated = false;
-  state.userId = null;
-  state.token = null;
   _common_jwt_service__WEBPACK_IMPORTED_MODULE_1__["default"].unsetToken();
+  Object.assign(state, getDefaultState());
 }), _mutations);
 var actions = (_actions = {}, _defineProperty(_actions, _actions_type__WEBPACK_IMPORTED_MODULE_2__["LOGIN"], function (context, credentials) {
   return new Promise(function (resolve, reject) {
@@ -48422,6 +48519,7 @@ var actions = (_actions = {}, _defineProperty(_actions, _actions_type__WEBPACK_I
       user: credentials
     }).then(function (_ref2) {
       var data = _ref2.data;
+      context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["CLEAR_ERRORS"]);
       context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["SET_AUTH"], {
         userId: data.userId,
         token: data.token
@@ -48482,6 +48580,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _auth_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth.module */ "./resources/js/store/auth.module.js");
 /* harmony import */ var vuex_persistedstate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex-persistedstate */ "./node_modules/vuex-persistedstate/dist/vuex-persistedstate.es.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -48491,7 +48592,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   modules: {
     auth: _auth_module__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  plugins: [Object(vuex_persistedstate__WEBPACK_IMPORTED_MODULE_3__["default"])()]
+  plugins: [Object(vuex_persistedstate__WEBPACK_IMPORTED_MODULE_3__["default"])(), vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4___default()({
+    predicate: ['logout', 'setUser']
+  })]
 }));
 
 /***/ }),
@@ -48500,7 +48603,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*!**********************************************!*\
   !*** ./resources/js/store/mutations.type.js ***!
   \**********************************************/
-/*! exports provided: SET_AUTH, RESET_AUTH, SET_ERROR */
+/*! exports provided: SET_AUTH, RESET_AUTH, SET_ERROR, CLEAR_ERRORS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48508,9 +48611,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_AUTH", function() { return SET_AUTH; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_AUTH", function() { return RESET_AUTH; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_ERROR", function() { return SET_ERROR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_ERRORS", function() { return CLEAR_ERRORS; });
 var SET_AUTH = "setUser";
 var RESET_AUTH = "logout";
 var SET_ERROR = "setError";
+var CLEAR_ERRORS = "clearErrors";
 
 /***/ }),
 
