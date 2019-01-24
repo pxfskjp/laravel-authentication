@@ -63,7 +63,6 @@
                 return this.$store.getters.getErrors.login;
             },
             containsErrors(){
-                console.log(this.$store.getters.getErrors.login.length > 0);
               return this.$store.getters.getErrors.login.length > 0;
             },
             signIn(identity, password){

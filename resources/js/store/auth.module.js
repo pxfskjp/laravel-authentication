@@ -44,6 +44,7 @@ const mutations = {
         state.isAuthenticated = true;
         state.userId = data.userId;
         state.token = data.token;
+        state.errors = getDefaultState().errors;
         JwtService.setToken(data.token);
     },
     [RESET_AUTH](state) {
