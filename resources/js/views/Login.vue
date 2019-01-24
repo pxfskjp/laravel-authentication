@@ -3,9 +3,9 @@
         <b-form v-on:submit.prevent="signIn(form.identity,form.password)"
                 class="mx-auto justify-content-center w-50 ">
             <b-form-group id="loginErrors" class="errorsBlock"
-                          v-show="this.$store.getters.getLoginErrors.length">
-                <ul>
-                    <li v-for="error in this.$store.getters.getLoginErrors">
+                          v-show="containsErrors()">
+                <ul v-for="error in getErrors()">
+                    <li>
                         {{ error.message }}
                     </li>
                 </ul>
@@ -25,7 +25,6 @@
                         {{ errors.first('login') }}
                     </span>
                 </b-form-row>
-
             </b-form-group>
             <b-form-group id="passwordGroup"
                           horizontal
@@ -47,7 +46,6 @@
                 <b-button type="submit" variant="primary">Sign-in</b-button>
             </b-form-group>
         </b-form>
-
     </div>
 </template>
 <script>
@@ -61,6 +59,14 @@
                 }
         }),
         methods: {
+            getErrors(){
+                console.log('LOL');
+                return this.$store.getters.getErrors.login;
+            },
+            containsErrors(){
+                console.log(this.$store.getters.getErrors.login.length > 0);
+              return this.$store.getters.getErrors.login.length > 0;
+            },
             signIn(identity, password){
                 this.$validator.validateAll().then((result) => {
                     if (result) {

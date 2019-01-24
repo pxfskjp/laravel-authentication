@@ -3,25 +3,26 @@ import JwtService from "../common/jwt.service";
 
 import {CHECK_AUTH} from "./actions.type"
 
-import {SET_AUTH, SET_ERROR, RESET_AUTH} from "../store/mutations.type";
+import {SET_AUTH, SET_ERROR, RESET_AUTH, CLEAR_ERRORS} from "../store/mutations.type";
 import {LOGIN, LOGOUT, REGISTER} from "./actions.type";
 
-const state = {
-    token: null,
-    errors: {
-        login: [],
-        register: []
-    },
-    userId: null,
-    isAuthenticated: !!JwtService.getToken()
+const getDefaultState = () => {
+    return {
+        token: null,
+        errors: {
+            login: [],
+            register: []
+        },
+        userId: null,
+        isAuthenticated: !!JwtService.getToken()
+    }
 };
 
+const state = getDefaultState();
+
 const getters = {
-    getRegisterErrors(){
-        return state.errors.register;
-    },
-    getLoginErrors(){
-        return state.errors.login;
+    getErrors(state){
+        return state.errors;
     },
     currentUser(state){
         return state.userId;
@@ -32,10 +33,12 @@ const getters = {
 };
 
 const mutations = {
+    [CLEAR_ERRORS](state) {
+        state.errors = [];
+    },
     [SET_ERROR](state, {target, message}) {
-        console.log(message);
         state.errors[target] = [];
-        state.errors[target].push({message: message})
+        state.errors[target].push({message: message});
     },
     [SET_AUTH](state, data) {
         state.isAuthenticated = true;
@@ -44,10 +47,8 @@ const mutations = {
         JwtService.setToken(data.token);
     },
     [RESET_AUTH](state) {
-        state.isAuthenticated = false;
-        state.userId = null;
-        state.token = null;
         JwtService.unsetToken();
+        Object.assign(state, getDefaultState());
     }
 };
 
@@ -56,6 +57,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             ApiService.post("api/users/login", {user: credentials})
                 .then(({data}) => {
+                    context.commit(CLEAR_ERRORS);
                     context.commit(
                         SET_AUTH, {userId: data.userId, token: data.token}
                     );

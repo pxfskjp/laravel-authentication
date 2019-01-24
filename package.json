@@ -16,6 +16,7 @@
         "cross-env": "^5.1",
         "css-loader": "^2.1.0",
         "extract-text-webpack-plugin": "^3.0.2",
+        "jest": "^23.6.0",
         "jquery": "^3.2",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.5",
@@ -35,6 +36,7 @@
         "vee-validate": "^2.1.5",
         "vue-loader": "^15.5.1",
         "vue-style-loader": "^4.1.2",
-        "vuex-persistedstate": "^2.5.4"
+        "vuex-persistedstate": "^2.5.4",
+        "vuex-shared-mutations": "0.0.7"
     }
 }
