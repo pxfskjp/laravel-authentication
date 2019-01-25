@@ -24,21 +24,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'user.identity' => 'required|min:3|max:60',
+            'user.identity' => 'required|min:3|max:254',
             'user.password' => 'required|min:8|max:36'
-        ];
-    }
-
-    /**
-     * Custom message for validation
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'user.identity.required' => 'Email or Login is required!',
-            'user.password.required' => 'Password is required!'
         ];
     }
 }

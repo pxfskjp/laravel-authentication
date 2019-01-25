@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Auth;
 
 use App\User;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +31,7 @@ class PassportTest extends TestCase
     public function testGetJWTByValidData()
     {
         $receiveTokenUrl = '/oauth/token';
+
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -39,7 +40,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST',$receiveTokenUrl, $data)
+        $this->json('POST', $receiveTokenUrl, $data)
             ->assertStatus(200)
             ->assertJsonStructure([
                 'token_type',
@@ -52,6 +53,7 @@ class PassportTest extends TestCase
     public function testGetJWTByInvalidData()
     {
         $receiveTokenUrl = '/oauth/token';
+
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -60,7 +62,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST',$receiveTokenUrl, $data)
+        $this->json('POST', $receiveTokenUrl, $data)
             ->assertStatus(401)
             ->assertJsonStructure([
                 'error',
@@ -68,8 +70,10 @@ class PassportTest extends TestCase
             ]);
     }
 
-    public function testAuthenticationByLogin(){
+    public function testAuthenticationByLogin()
+    {
         $receiveTokenUrl = '/oauth/token';
+
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -78,7 +82,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST',$receiveTokenUrl, $data)
+        $this->json('POST', $receiveTokenUrl, $data)
             ->assertStatus(200)
             ->assertJsonStructure([
                 'token_type',
@@ -88,8 +92,10 @@ class PassportTest extends TestCase
             ]);
     }
 
-    public function testAuthenticationByEmail(){
+    public function testAuthenticationByEmail()
+    {
         $receiveTokenUrl = '/oauth/token';
+
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -98,7 +104,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST',$receiveTokenUrl, $data)
+        $this->json('POST', $receiveTokenUrl, $data)
             ->assertStatus(200)
             ->assertJsonStructure([
                 'token_type',

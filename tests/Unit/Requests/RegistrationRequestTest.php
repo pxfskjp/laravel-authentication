@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Requests;
 
 use App\Http\Requests\RegistrationRequest;
 use Illuminate\Support\Str;
@@ -9,8 +9,11 @@ use Tests\TestCase;
 
 class RegistrationRequestTest extends TestCase
 {
-    private $rules;
-    private $validator;
+    use PrepareValidator;
+
+
+    private $registerUserUrl = '/api/users';
+
 
     public function setUp()
     {
@@ -19,7 +22,7 @@ class RegistrationRequestTest extends TestCase
         $this->validator = $this->app['validator'];
     }
 
-    public function validateLoginRule()
+    public function testLoginRule()
     {
         $this->assertTrue(
             $this->validateField('user.login', 'andrew111')
@@ -28,11 +31,11 @@ class RegistrationRequestTest extends TestCase
             $this->validateField('user.login', 'an')
         );
         $this->assertFalse(
-            $this->validateField('user.login', 'a')
+            $this->validateField('user.login', Str::random(61))
         );
     }
 
-    public function validateEmailRule()
+    public function testEmailRule()
     {
         $this->assertTrue(
             $this->validateField('user.email', 'andrew111@gmail.com')
@@ -45,7 +48,7 @@ class RegistrationRequestTest extends TestCase
         );
     }
 
-    public function validatePasswordRule()
+    public function testPasswordRule()
     {
         $this->assertTrue(
             $this->validateField('user.password', 'newpassword')
@@ -60,7 +63,6 @@ class RegistrationRequestTest extends TestCase
 
     public function testInvalidLogin()
     {
-        $registerUserUrl = '/api/users';
 
         $invalidLogins = ['', 'ww', Str::random(61)];
 
@@ -73,7 +75,7 @@ class RegistrationRequestTest extends TestCase
                     'password_confirmation' => 'testoidnov'
                 ]
             ];
-            $this->json('POST', $registerUserUrl, $data)
+            $this->json('POST', $this->registerUserUrl, $data)
                 ->assertStatus(422)
                 ->assertJsonStructure([
                     'message',
@@ -86,8 +88,6 @@ class RegistrationRequestTest extends TestCase
 
     public function testInvalidEmail()
     {
-        $registerUserUrl = '/api/users';
-
         $invalidEmails = ['paul.castellano@.com', 'tommybilotty@', 'cosanostramail.com'];
 
         foreach ($invalidEmails as $email) {
@@ -99,7 +99,7 @@ class RegistrationRequestTest extends TestCase
                     'password_confirmation' => 'testoidnov'
                 ]
             ];
-            $this->json('POST', $registerUserUrl, $data)
+            $this->json('POST', $this->registerUserUrl, $data)
                 ->assertStatus(422)
                 ->assertJsonStructure([
                     'message',
@@ -112,8 +112,6 @@ class RegistrationRequestTest extends TestCase
 
     public function testInvalidPassword()
     {
-        $registerUserUrl = '/api/users';
-
         $invalidPasswords = [
             '', 'qwerty', Str::random(37)
         ];
@@ -127,7 +125,7 @@ class RegistrationRequestTest extends TestCase
                     'password_confirmation' => $password
                 ]
             ];
-            $this->json('POST', $registerUserUrl, $data)
+            $this->json('POST', $this->registerUserUrl, $data)
                 ->assertStatus(422)
                 ->assertJsonStructure([
                     'message',
@@ -140,8 +138,6 @@ class RegistrationRequestTest extends TestCase
 
     public function testInvalidPasswordConfirmation()
     {
-        $registerUserUrl = '/api/users';
-
         $invalidConrimationPasswords = [
             'johngottijunior', 'gotti', 'johngottijunior111',
             'junior111gunboomboom'
@@ -156,7 +152,7 @@ class RegistrationRequestTest extends TestCase
                     'password_confirmation' => $password
                 ]
             ];
-            $this->json('POST', $registerUserUrl, $data)
+            $this->json('POST', $this->registerUserUrl, $data)
                 ->assertStatus(422)
                 ->assertJsonStructure([
                     'message',
@@ -167,16 +163,4 @@ class RegistrationRequestTest extends TestCase
         }
     }
 
-    private function getFieldValidator($field, $value)
-    {
-        return $this->validator->make(
-            [$field => $value],
-            [$field => $this->rules[$field]]
-        );
-    }
-
-    private function validateField($field, $value)
-    {
-        return $this->getFieldValidator($field, $value)->passes();
-    }
 }
