@@ -3,9 +3,22 @@
 namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\Artisan;
 
 trait CreatesApplication
 {
+    protected static $migrationsRun = false;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        Artisan::call('migrate');
+        Artisan::call('db:seed');
+        Artisan::call('passport:install');
+        static::$migrationsRun = true;
+    }
+
     /**
      * Creates the application.
      *
@@ -19,4 +32,11 @@ trait CreatesApplication
 
         return $app;
     }
+
+    public function tearDown()
+    {
+        Artisan::call('migrate:reset');
+        parent::tearDown();
+    }
+
 }

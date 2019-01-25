@@ -1963,7 +1963,6 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.getErrors.login;
     },
     containsErrors: function containsErrors() {
-      console.log(this.$store.getters.getErrors.login.length > 0);
       return this.$store.getters.getErrors.login.length > 0;
     },
     signIn: function signIn(identity, password) {
@@ -2089,6 +2088,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    getErrors: function getErrors() {
+      return this.$store.getters.getErrors.register;
+    },
+    containsErrors: function containsErrors() {
+      return this.$store.getters.getErrors.register.length > 0;
+    },
     signUp: function signUp() {
       var _this = this;
 
@@ -2099,8 +2104,6 @@ __webpack_require__.r(__webpack_exports__);
               name: "home"
             });
           });
-        } else {
-          console.log('validation is incorrect');
         }
       });
     }
@@ -32791,8 +32794,8 @@ var render = function() {
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: this.$store.getters.getRegisterErrors.length,
-                  expression: "this.$store.getters.getRegisterErrors.length"
+                  value: _vm.containsErrors(),
+                  expression: "containsErrors()"
                 }
               ],
               staticClass: "errorsBlock",
@@ -48508,6 +48511,7 @@ var mutations = (_mutations = {}, _defineProperty(_mutations, _store_mutations_t
   state.isAuthenticated = true;
   state.userId = data.userId;
   state.token = data.token;
+  state.errors = getDefaultState().errors;
   _common_jwt_service__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token);
 }), _defineProperty(_mutations, _store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["RESET_AUTH"], function (state) {
   _common_jwt_service__WEBPACK_IMPORTED_MODULE_1__["default"].unsetToken();

@@ -2,7 +2,7 @@
     <div id="loginForm" class="pt-5">
         <b-form v-on:submit.prevent="signUp" class="mx-auto justify-content-center w-50 ">
             <b-form-group id="registerErrors" class="errorsBlock"
-                          v-show="this.$store.getters.getRegisterErrors.length">
+                          v-show="containsErrors()">
                 <ul>
                     <li v-for="error in this.$store.getters.getRegisterErrors">
                         {{ error.message }}
@@ -90,14 +90,18 @@
             }
         }),
         methods: {
+            getErrors(){
+                return this.$store.getters.getErrors.register;
+            },
+            containsErrors(){
+                return this.$store.getters.getErrors.register.length > 0;
+            },
             signUp(){
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         this.$store
                             .dispatch(REGISTER, this.form)
                             .then(() => this.$router.push({ name: "home" }));
-                    } else {
-                        console.log('validation is incorrect');
                     }
                 });
             }
