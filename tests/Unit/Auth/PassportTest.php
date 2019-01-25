@@ -6,8 +6,7 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class PassportTest extends TestCase
 {
@@ -31,6 +30,7 @@ class PassportTest extends TestCase
      */
     public function testGetJWTByValidData()
     {
+        $receiveTokenUrl = '/oauth/token';
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -39,7 +39,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST','/oauth/token', $data)
+        $this->json('POST',$receiveTokenUrl, $data)
             ->assertStatus(200)
             ->assertJsonStructure([
                 'token_type',
@@ -51,6 +51,7 @@ class PassportTest extends TestCase
 
     public function testGetJWTByInvalidData()
     {
+        $receiveTokenUrl = '/oauth/token';
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -59,11 +60,51 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST','/oauth/token', $data)
+        $this->json('POST',$receiveTokenUrl, $data)
             ->assertStatus(401)
             ->assertJsonStructure([
                 'error',
                 'message'
+            ]);
+    }
+
+    public function testAuthenticationByLogin(){
+        $receiveTokenUrl = '/oauth/token';
+        $data = [
+            'grant_type' => config('auth.passport.grant'),
+            'client_id' => config('auth.passport.client.id'),
+            'client_secret' => $this->clientSecret,
+            'username' => $this->authenticatedUser->login,
+            'password' => 'password',
+            'scope' => '*'
+        ];
+        $this->json('POST',$receiveTokenUrl, $data)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'token_type',
+                'expires_in',
+                'access_token',
+                'refresh_token'
+            ]);
+    }
+
+    public function testAuthenticationByEmail(){
+        $receiveTokenUrl = '/oauth/token';
+        $data = [
+            'grant_type' => config('auth.passport.grant'),
+            'client_id' => config('auth.passport.client.id'),
+            'client_secret' => $this->clientSecret,
+            'username' => $this->authenticatedUser->email,
+            'password' => 'password',
+            'scope' => '*'
+        ];
+        $this->json('POST',$receiveTokenUrl, $data)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'token_type',
+                'expires_in',
+                'access_token',
+                'refresh_token'
             ]);
     }
 
