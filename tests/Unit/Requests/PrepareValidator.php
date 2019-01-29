@@ -4,21 +4,20 @@
 namespace Tests\Unit\Requests;
 
 
+use Illuminate\Support\Facades\Validator;
+
 trait PrepareValidator
 {
-    private $rules;
-    private $validator;
-
+    private $validationRules;
 
     private function getFieldValidator($field, $value)
     {
-        return $this->validator->make(
+        return Validator::make(
             [$field => $value],
-            [$field => $this->rules[$field]]
-        );
+            [$field => $this->validationRules[$field]]);
     }
 
-    private function validateField($field, $value)
+    private function validateField($field, $value): bool
     {
         return $this->getFieldValidator($field, $value)->passes();
     }
