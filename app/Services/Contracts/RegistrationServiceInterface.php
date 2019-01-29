@@ -11,7 +11,7 @@ namespace App\Services\Contracts;
 
 use App\Http\Requests\RegistrationRequest;
 
-interface RegistrationService
+interface RegistrationServiceInterface
 {
     public function register(RegistrationRequest $request): array;
 }

@@ -9,14 +9,14 @@
 namespace App\Services\Contracts;
 
 
-use App\Repositories\Contracts\Repository;
+use App\Repositories\Contracts\RepositoryInterface;
 use Illuminate\Http\Request;
 
-abstract class GenericService implements Service
+abstract class AbstractService implements ServiceInterface
 {
     protected $repository;
 
-    public function __construct(Repository $repository)
+    public function __construct(RepositoryInterface $repository)
     {
         $this->repository = $repository ;
     }

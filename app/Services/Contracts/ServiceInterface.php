@@ -11,7 +11,7 @@ namespace App\Services\Contracts;
 
 use Illuminate\Http\Request;
 
-interface Service
+interface ServiceInterface
 {
     public function index();
 

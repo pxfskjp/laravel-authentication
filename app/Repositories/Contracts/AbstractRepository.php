@@ -6,7 +6,7 @@ namespace App\Repositories\Contracts;
 
  use Illuminate\Database\Eloquent\Model;
 
- class GenericRepository implements Repository
+ abstract class AbstractRepository implements RepositoryInterface
 {
     protected $model;
 

@@ -12,7 +12,7 @@ namespace App\Services\Contracts;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 
-interface AuthenticationService
+interface AuthenticationServiceInterface
 {
     public function login(LoginRequest $request);
 
