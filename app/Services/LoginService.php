@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\Contracts\Repository;
-use App\Services\Contracts\AuthenticationService;
+use App\Repositories\Contracts\RepositoryInterface;
+use App\Services\Contracts\AuthenticationServiceInterface;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
-class LoginService implements AuthenticationService
+class LoginService implements AuthenticationServiceInterface
 {
     protected $repository;
 
-    public function __construct(Repository $repository)
+    public function __construct(RepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -56,7 +56,6 @@ class LoginService implements AuthenticationService
         $request->headers->set('Authorization', 'Bearer ' . $token);
         app()->instance('request', $request);
         return Route::dispatch($request)->getData()->authenticated;
-
     }
 
     public function logout(): array

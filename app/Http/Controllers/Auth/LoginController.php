@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Services\Contracts\AuthenticationService;
+use App\Services\Contracts\AuthenticationServiceInterface;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 
@@ -16,10 +16,10 @@ class LoginController extends Controller
 
     /**
      * Create a new controller instance.
-     * @var AuthenticationService
+     * @var AuthenticationServiceInterface
      * @return void
      */
-    public function __construct(AuthenticationService $authenticationService)
+    public function __construct(AuthenticationServiceInterface $authenticationService)
     {
         $this->authenticationService = $authenticationService;
         $this->middleware('guest')->except('logout');

@@ -4,15 +4,15 @@ namespace App\Services;
 
 
 use App\Http\Requests\RegistrationRequest;
-use App\Repositories\Contracts\Repository;
-use App\Services\Contracts\RegistrationService;
+use App\Repositories\Contracts\RepositoryInterface;
+use App\Services\Contracts\RegistrationServiceInterface;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterService implements RegistrationService
+class RegisterService implements RegistrationServiceInterface
 {
     protected $repository;
 
-    public function __construct(Repository $repository)
+    public function __construct(RepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

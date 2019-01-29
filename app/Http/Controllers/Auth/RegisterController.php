@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Controllers\Controller;
-use App\Services\Contracts\RegistrationService;
+use App\Services\Contracts\RegistrationServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
@@ -17,7 +17,7 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct(RegistrationService $service)
+    public function __construct(RegistrationServiceInterface $service)
     {
         $this->service = $service;
         $this->middleware('guest');

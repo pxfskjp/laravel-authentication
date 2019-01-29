@@ -16,7 +16,7 @@ class LayerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
     }
 
     /**
@@ -32,16 +32,17 @@ class LayerServiceProvider extends ServiceProvider
             );
         });
         $this->app->bind(
-            'App\Services\Contracts\AuthenticationService',
+            'App\Services\Contracts\AuthenticationServiceInterface',
             'App\Services\LoginService'
         );
+
         $this->app->singleton('App\Services\RegisterService', function (Application $app) {
             return new RegisterService(
                 $app->make('App\Repositories\UserRepository')
             );
         });
         $this->app->bind(
-            'App\Services\Contracts\RegistrationService',
+            'App\Services\Contracts\RegistrationServiceInterface',
             'App\Services\RegisterService'
         );
     }
