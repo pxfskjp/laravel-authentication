@@ -10,7 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:8DtYcScvAH9XbPkPXSo4Fb2DzRzKvfUOp0PAVsrmMy4=',
+    'key' => 'base64:a4BiZOIqKbGmyc03O96P1aeACeZgm8GAz1aJJNptbXk=',
     'cipher' => 'AES-256-CBC',
     'providers' => 
     array (
@@ -42,6 +42,7 @@
       25 => 'App\\Providers\\RouteServiceProvider',
       26 => 'App\\Providers\\RepositoryServiceProvider',
       27 => 'App\\Providers\\LayerServiceProvider',
+      28 => 'App\\Providers\\UserLayerServiceProvider',
     ),
     'aliases' => 
     array (
@@ -129,7 +130,7 @@
       'client' => 
       array (
         'id' => '2',
-        'secret' => 'Iz758aHXTtfX7Ku4Nkbnuc9NdLjkmn1hzTWfJN8f',
+        'secret' => 'ohdyjZlJ5KbWBWr5zhLyrJBnkfTxgYoGAEmEpV41',
       ),
     ),
   ),
@@ -253,6 +254,12 @@
         'database' => 'laravel_vue_redis_chat',
         'prefix' => '',
         'foreign_key_constraints' => true,
+      ),
+      'sqlite_memory' => 
+      array (
+        'driver' => 'sqlite',
+        'database' => ':memory:',
+        'prefix' => '',
       ),
       'mysql' => 
       array (

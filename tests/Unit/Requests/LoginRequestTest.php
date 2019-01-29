@@ -11,12 +11,13 @@ class LoginRequestTest extends TestCase
 {
     use PrepareValidator;
 
-    private $loginUserUrl = '/api/users/login';
+    private $loginUserUrl;
 
 
     public function setUp()
     {
         parent::setUp();
+        $this->loginUserUrl = route('user.login');
         $this->validationRules = (new LoginRequest())->rules();
     }
 

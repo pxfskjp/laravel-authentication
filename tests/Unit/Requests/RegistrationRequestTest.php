@@ -12,13 +12,14 @@ class RegistrationRequestTest extends TestCase
     use PrepareValidator;
 
 
-    private $registerUserUrl = '/api/users';
+    private $registerUserUrl;
 
 
     public function setUp()
     {
         parent::setUp();
         $this->validationRules = (new RegistrationRequest())->rules();
+        $this->registerUserUrl = route('user.register');
     }
 
     public function testLoginRule()

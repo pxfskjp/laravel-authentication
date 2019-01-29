@@ -51,11 +51,13 @@ class LoginService implements AuthenticationServiceInterface
 
     private function getAuthenticatedId($token): int
     {
-        $request =  Request::create(config('app.url') . '/api/user/id','GET');
+        $request =  Request::create(
+            route('user.authenticated'),
+            'GET');
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Authorization', 'Bearer ' . $token);
         app()->instance('request', $request);
-        return Route::dispatch($request)->getData()->authenticated;
+        return Route::dispatch($request)->getData()->userId;
     }
 
     public function logout(): array

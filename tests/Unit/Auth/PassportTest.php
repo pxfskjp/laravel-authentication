@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 class PassportTest extends TestCase
 {
+    private $tokenUrl = '/oauth/token';
     private $authenticatedUser;
     private $clientSecret;
 
@@ -30,8 +31,6 @@ class PassportTest extends TestCase
      */
     public function testGetJWTByValidData()
     {
-        $receiveTokenUrl = '/oauth/token';
-
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -40,7 +39,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST', $receiveTokenUrl, $data)
+        $this->json('POST', $this->tokenUrl, $data)
             ->assertStatus(200)
             ->assertJsonStructure([
                 'token_type',
@@ -52,8 +51,6 @@ class PassportTest extends TestCase
 
     public function testGetJWTByInvalidData()
     {
-        $receiveTokenUrl = '/oauth/token';
-
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -62,7 +59,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST', $receiveTokenUrl, $data)
+        $this->json('POST', $this->tokenUrl, $data)
             ->assertStatus(401)
             ->assertJsonStructure([
                 'error',
@@ -72,8 +69,6 @@ class PassportTest extends TestCase
 
     public function testAuthenticationByLogin()
     {
-        $receiveTokenUrl = '/oauth/token';
-
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -82,7 +77,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST', $receiveTokenUrl, $data)
+        $this->json('POST', $this->tokenUrl, $data)
             ->assertStatus(200)
             ->assertJsonStructure([
                 'token_type',
@@ -94,8 +89,6 @@ class PassportTest extends TestCase
 
     public function testAuthenticationByEmail()
     {
-        $receiveTokenUrl = '/oauth/token';
-
         $data = [
             'grant_type' => config('auth.passport.grant'),
             'client_id' => config('auth.passport.client.id'),
@@ -104,7 +97,7 @@ class PassportTest extends TestCase
             'password' => 'password',
             'scope' => '*'
         ];
-        $this->json('POST', $receiveTokenUrl, $data)
+        $this->json('POST', $this->tokenUrl, $data)
             ->assertStatus(200)
             ->assertJsonStructure([
                 'token_type',
@@ -112,28 +105,5 @@ class PassportTest extends TestCase
                 'access_token',
                 'refresh_token'
             ]);
-    }
-
-    public function testGetUserIdByUnauthenticated()
-    {
-        $authenticatedUserIdUrl = '/api/user/id';
-
-        $this->json('GET',
-            $authenticatedUserIdUrl, [
-                'Authorization' => 'fake_and_invalid_token'
-            ])
-            ->assertStatus(401)
-            ->assertJsonStructure(['message']);
-    }
-
-    public function testGetUserIdByAuthenticated()
-    {
-        $authenticatedUserIdUrl = '/api/user/id';
-
-        Passport::actingAs($this->authenticatedUser);
-        $this->json('GET', $authenticatedUserIdUrl)
-            ->assertStatus(200)
-            ->assertJsonStructure(['authenticated'])
-            ->json(['authenticated' => $this->authenticatedUser->id]);
     }
 }

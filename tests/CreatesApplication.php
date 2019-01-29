@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Artisan;
 
 trait CreatesApplication
 {
-    protected static $migrationsRun = false;
-
     public function setUp()
     {
         parent::setUp();
@@ -16,7 +14,6 @@ trait CreatesApplication
         Artisan::call('migrate');
         Artisan::call('db:seed');
         Artisan::call('passport:install');
-        static::$migrationsRun = true;
     }
 
     /**
@@ -38,5 +35,4 @@ trait CreatesApplication
         Artisan::call('migrate:reset');
         parent::tearDown();
     }
-
 }
