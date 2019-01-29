@@ -18,15 +18,11 @@ class RegistrationRequestTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->rules = (new RegistrationRequest())->rules();
-        $this->validator = $this->app['validator'];
+        $this->validationRules = (new RegistrationRequest())->rules();
     }
 
     public function testLoginRule()
     {
-        $this->assertTrue(
-            $this->validateField('user.login', 'andrew111')
-        );
         $this->assertFalse(
             $this->validateField('user.login', 'an')
         );
@@ -37,9 +33,6 @@ class RegistrationRequestTest extends TestCase
 
     public function testEmailRule()
     {
-        $this->assertTrue(
-            $this->validateField('user.email', 'andrew111@gmail.com')
-        );
         $this->assertFalse(
             $this->validateField('user.email', 'andrew111')
         );
@@ -50,9 +43,6 @@ class RegistrationRequestTest extends TestCase
 
     public function testPasswordRule()
     {
-        $this->assertTrue(
-            $this->validateField('user.password', 'newpassword')
-        );
         $this->assertFalse(
             $this->validateField('user.password', 'newpa')
         );
@@ -63,7 +53,6 @@ class RegistrationRequestTest extends TestCase
 
     public function testInvalidLogin()
     {
-
         $invalidLogins = ['', 'ww', Str::random(61)];
 
         foreach ($invalidLogins as $login) {
@@ -162,5 +151,4 @@ class RegistrationRequestTest extends TestCase
                 ]);
         }
     }
-
 }
