@@ -5,6 +5,7 @@ import {CHECK_AUTH} from "./actions.type"
 
 import {SET_AUTH, SET_ERROR, RESET_AUTH, CLEAR_ERRORS} from "../store/mutations.type";
 import {LOGIN, LOGOUT, REGISTER} from "./actions.type";
+import {PURGE_AUTH} from "../../../../examples/vue-realworld-example-app/src/store/mutations.type";
 
 const getDefaultState = () => {
     return {
@@ -50,7 +51,7 @@ const mutations = {
     [RESET_AUTH](state) {
         JwtService.unsetToken();
         Object.assign(state, getDefaultState());
-    }
+    },
 };
 
 const actions = {
@@ -80,6 +81,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             ApiService.post("api/users", {user: credentials})
                 .then(({data}) => {
+                    console.log(data);
                     context.commit(SET_AUTH, {userId: data.userId, token: data.token});
                     resolve(data);
                 })
@@ -91,6 +93,17 @@ const actions = {
                     reject(response);
                 });
         });
+    },
+    [CHECK_AUTH](context) {
+        if (JwtService.getToken()) {
+            ApiService.setHeader();
+            ApiService.get("api/token/validate")
+                .catch(({ response }) => {
+                    context.commit(RESET_AUTH);
+                });
+        } else {
+            context.commit(RESET_AUTH);
+        }
     },
 };
 

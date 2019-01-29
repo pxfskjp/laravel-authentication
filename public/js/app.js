@@ -86,6 +86,100 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "../examples/vue-realworld-example-app/src/store/actions.type.js":
+/*!***********************************************************************!*\
+  !*** ../examples/vue-realworld-example-app/src/store/actions.type.js ***!
+  \***********************************************************************/
+/*! exports provided: ARTICLE_PUBLISH, ARTICLE_DELETE, ARTICLE_EDIT, ARTICLE_EDIT_ADD_TAG, ARTICLE_EDIT_REMOVE_TAG, ARTICLE_RESET_STATE, CHECK_AUTH, COMMENT_CREATE, COMMENT_DESTROY, FAVORITE_ADD, FAVORITE_REMOVE, FETCH_ARTICLE, FETCH_ARTICLES, FETCH_COMMENTS, FETCH_PROFILE, FETCH_PROFILE_FOLLOW, FETCH_PROFILE_UNFOLLOW, FETCH_TAGS, LOGIN, LOGOUT, REGISTER, UPDATE_USER */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ARTICLE_PUBLISH", function() { return ARTICLE_PUBLISH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ARTICLE_DELETE", function() { return ARTICLE_DELETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ARTICLE_EDIT", function() { return ARTICLE_EDIT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ARTICLE_EDIT_ADD_TAG", function() { return ARTICLE_EDIT_ADD_TAG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ARTICLE_EDIT_REMOVE_TAG", function() { return ARTICLE_EDIT_REMOVE_TAG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ARTICLE_RESET_STATE", function() { return ARTICLE_RESET_STATE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CHECK_AUTH", function() { return CHECK_AUTH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COMMENT_CREATE", function() { return COMMENT_CREATE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COMMENT_DESTROY", function() { return COMMENT_DESTROY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FAVORITE_ADD", function() { return FAVORITE_ADD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FAVORITE_REMOVE", function() { return FAVORITE_REMOVE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_ARTICLE", function() { return FETCH_ARTICLE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_ARTICLES", function() { return FETCH_ARTICLES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_COMMENTS", function() { return FETCH_COMMENTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_PROFILE", function() { return FETCH_PROFILE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_PROFILE_FOLLOW", function() { return FETCH_PROFILE_FOLLOW; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_PROFILE_UNFOLLOW", function() { return FETCH_PROFILE_UNFOLLOW; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_TAGS", function() { return FETCH_TAGS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGIN", function() { return LOGIN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT", function() { return LOGOUT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REGISTER", function() { return REGISTER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_USER", function() { return UPDATE_USER; });
+var ARTICLE_PUBLISH = "publishArticle";
+var ARTICLE_DELETE = "deleteArticle";
+var ARTICLE_EDIT = "editArticle";
+var ARTICLE_EDIT_ADD_TAG = "addTagToArticle";
+var ARTICLE_EDIT_REMOVE_TAG = "removeTagFromArticle";
+var ARTICLE_RESET_STATE = "resetArticleState";
+var CHECK_AUTH = "checkAuth";
+var COMMENT_CREATE = "createComment";
+var COMMENT_DESTROY = "destroyComment";
+var FAVORITE_ADD = "addFavorite";
+var FAVORITE_REMOVE = "removeFavorite";
+var FETCH_ARTICLE = "fetchArticle";
+var FETCH_ARTICLES = "fetchArticles";
+var FETCH_COMMENTS = "fetchComments";
+var FETCH_PROFILE = "fetchProfile";
+var FETCH_PROFILE_FOLLOW = "fetchProfileFollow";
+var FETCH_PROFILE_UNFOLLOW = "fetchProfileUnfollow";
+var FETCH_TAGS = "fetchTags";
+var LOGIN = "login";
+var LOGOUT = "logout";
+var REGISTER = "register";
+var UPDATE_USER = "updateUser";
+
+/***/ }),
+
+/***/ "../examples/vue-realworld-example-app/src/store/mutations.type.js":
+/*!*************************************************************************!*\
+  !*** ../examples/vue-realworld-example-app/src/store/mutations.type.js ***!
+  \*************************************************************************/
+/*! exports provided: FETCH_END, FETCH_START, PURGE_AUTH, SET_ARTICLE, SET_AUTH, SET_COMMENTS, SET_ERROR, SET_PROFILE, SET_TAGS, TAG_ADD, TAG_REMOVE, UPDATE_ARTICLE_IN_LIST, RESET_STATE */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_END", function() { return FETCH_END; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_START", function() { return FETCH_START; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PURGE_AUTH", function() { return PURGE_AUTH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_ARTICLE", function() { return SET_ARTICLE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_AUTH", function() { return SET_AUTH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_COMMENTS", function() { return SET_COMMENTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_ERROR", function() { return SET_ERROR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PROFILE", function() { return SET_PROFILE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_TAGS", function() { return SET_TAGS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TAG_ADD", function() { return TAG_ADD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TAG_REMOVE", function() { return TAG_REMOVE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_ARTICLE_IN_LIST", function() { return UPDATE_ARTICLE_IN_LIST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_STATE", function() { return RESET_STATE; });
+var FETCH_END = "setArticles";
+var FETCH_START = "setLoading";
+var PURGE_AUTH = "logOut";
+var SET_ARTICLE = "setArticle";
+var SET_AUTH = "setUser";
+var SET_COMMENTS = "setComments";
+var SET_ERROR = "setError";
+var SET_PROFILE = "setProfile";
+var SET_TAGS = "setTags";
+var TAG_ADD = "addTag";
+var TAG_REMOVE = "removeTag";
+var UPDATE_ARTICLE_IN_LIST = "updateAricleInList";
+var RESET_STATE = "resetModuleState";
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -48383,6 +48477,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../App */ "./resources/js/App.vue");
 /* harmony import */ var _views_Login__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/Login */ "./resources/js/views/Login.vue");
 /* harmony import */ var _views_Register__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/Register */ "./resources/js/views/Register.vue");
+/* harmony import */ var _examples_vue_realworld_example_app_src_store_actions_type__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../examples/vue-realworld-example-app/src/store/actions.type */ "../examples/vue-realworld-example-app/src/store/actions.type.js");
+
 
 
 
@@ -48418,14 +48514,21 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     }
   }]
 });
+/*
+
+router.beforeEach((to, from, next) => {
+    if(to.meta.requiresAuth && !store.getters.isAuthenticated){
+        next('/login');
+    } else if(to.meta.hideForAuth && store.getters.isAuthenticated){
+        next('/');
+    } else {
+        next();
+    }
+});
+*/
+
 router.beforeEach(function (to, from, next) {
-  if (to.meta.requiresAuth && !_store__WEBPACK_IMPORTED_MODULE_2__["default"].getters.isAuthenticated) {
-    next('/login');
-  } else if (to.meta.hideForAuth && _store__WEBPACK_IMPORTED_MODULE_2__["default"].getters.isAuthenticated) {
-    next('/');
-  } else {
-    next();
-  }
+  return Promise.all([_store__WEBPACK_IMPORTED_MODULE_2__["default"].dispatch(_examples_vue_realworld_example_app_src_store_actions_type__WEBPACK_IMPORTED_MODULE_6__["CHECK_AUTH"])]).then(next);
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
@@ -48464,9 +48567,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_jwt_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/jwt.service */ "./resources/js/common/jwt.service.js");
 /* harmony import */ var _actions_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actions.type */ "./resources/js/store/actions.type.js");
 /* harmony import */ var _store_mutations_type__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/mutations.type */ "./resources/js/store/mutations.type.js");
+/* harmony import */ var _examples_vue_realworld_example_app_src_store_mutations_type__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../examples/vue-realworld-example-app/src/store/mutations.type */ "../examples/vue-realworld-example-app/src/store/mutations.type.js");
 var _mutations, _actions;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -48540,19 +48645,34 @@ var actions = (_actions = {}, _defineProperty(_actions, _actions_type__WEBPACK_I
   });
 }), _defineProperty(_actions, _actions_type__WEBPACK_IMPORTED_MODULE_2__["LOGOUT"], function (context) {
   context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["RESET_AUTH"]);
+  return new Promise(function (resolve, reject) {
+    _api_api_service__WEBPACK_IMPORTED_MODULE_0__["default"].get("api/users/logout").then(function (_ref4) {
+      var data = _ref4.data;
+      context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["RESET_AUTH"]);
+      resolve(data);
+    }).catch(function (_ref5) {
+      var response = _ref5.response;
+      context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["SET_ERROR"], {
+        target: 'logout',
+        message: response.data.error
+      });
+      reject(response);
+    });
+  });
 }), _defineProperty(_actions, _actions_type__WEBPACK_IMPORTED_MODULE_2__["REGISTER"], function (context, credentials) {
   return new Promise(function (resolve, reject) {
     _api_api_service__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/users", {
       user: credentials
-    }).then(function (_ref4) {
-      var data = _ref4.data;
+    }).then(function (_ref6) {
+      var data = _ref6.data;
+      console.log(data);
       context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["SET_AUTH"], {
         userId: data.userId,
         token: data.token
       });
       resolve(data);
-    }).catch(function (_ref5) {
-      var response = _ref5.response;
+    }).catch(function (_ref7) {
+      var response = _ref7.response;
       context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["SET_ERROR"], {
         target: 'register',
         message: response.data.error
@@ -48560,6 +48680,16 @@ var actions = (_actions = {}, _defineProperty(_actions, _actions_type__WEBPACK_I
       reject(response);
     });
   });
+}), _defineProperty(_actions, _actions_type__WEBPACK_IMPORTED_MODULE_2__["CHECK_AUTH"], function (context) {
+  if (_common_jwt_service__WEBPACK_IMPORTED_MODULE_1__["default"].getToken()) {
+    _api_api_service__WEBPACK_IMPORTED_MODULE_0__["default"].setHeader();
+    _api_api_service__WEBPACK_IMPORTED_MODULE_0__["default"].get("api/token/validate").catch(function (_ref8) {
+      var response = _ref8.response;
+      context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["RESET_AUTH"]);
+    });
+  } else {
+    context.commit(_store_mutations_type__WEBPACK_IMPORTED_MODULE_3__["RESET_AUTH"]);
+  }
 }), _actions);
 /* harmony default export */ __webpack_exports__["default"] = ({
   getters: getters,
