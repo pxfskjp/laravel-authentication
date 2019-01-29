@@ -33,14 +33,8 @@ class LoginRequestTest extends TestCase
         );
     }
 
-
     public function testPasswordRule()
     {
-        /*
-        $this->assertTrue(
-            $this->validateField('user.password', 'mypasswordqwerty111')
-        );
-        */
         $this->assertFalse(
             $this->validateField('user.password', 'mobmob')
         );
