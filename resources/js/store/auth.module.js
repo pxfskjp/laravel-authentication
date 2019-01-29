@@ -76,6 +76,20 @@ const actions = {
     },
     [LOGOUT](context) {
         context.commit(RESET_AUTH);
+        return new Promise((resolve, reject) => {
+            ApiService.get("api/users/logout")
+                .then(({data}) => {
+                    context.commit(RESET_AUTH);
+                    resolve(data);
+                })
+                .catch(({response}) => {
+                    context.commit(
+                        SET_ERROR,
+                        {target: 'logout', message: response.data.error}
+                    );
+                    reject(response);
+                });
+        });
     },
     [REGISTER](context, credentials) {
         return new Promise((resolve, reject) => {

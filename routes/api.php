@@ -9,8 +9,14 @@ Route::post('/users', 'Auth\RegisterController@register')
     ->name('user.register');
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/user/id', 'UserController@getUserId');
-    Route::get('/logout', 'Auth\LoginController@logout');
+    Route::get('/token/validate', 'UserController@getAuthenticatedUser')
+        ->name('passport.token.validate');
+
+    Route::get('/user', 'UserController@getAuthenticatedUser')
+        ->name('user.authenticated');
+
+    Route::get('/users/logout', 'Auth\LoginController@logout')
+        ->name('user.logout');
 });
 
 
