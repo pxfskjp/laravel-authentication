@@ -20,7 +20,6 @@ class RegisterController extends Controller
     public function __construct(RegistrationServiceInterface $service)
     {
         $this->service = $service;
-        $this->middleware('guest');
     }
 
 
