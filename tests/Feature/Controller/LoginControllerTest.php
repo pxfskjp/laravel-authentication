@@ -57,8 +57,9 @@ class LoginControllerTest extends TestCase
     }
 
     public function testSuccessLogout(){
-        $user = Passport::actingAs($this->loginUser);
-        $this->get($this->logOutUrl,[])
+        $this->json('GET', '/api/users/logout',[],[
+            'Authorization' => 'Bearer ' . $this->loginUser->createToken('JWT')->accessToken
+        ])
             ->assertStatus(200)
             ->assertJsonStructure([
                 'status',
