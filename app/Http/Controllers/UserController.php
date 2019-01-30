@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\Contracts\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {

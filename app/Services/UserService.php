@@ -19,7 +19,6 @@ class UserService extends AbstractService implements UserServiceInterface
     public function getAuthenticatedUser(): array
     {
         return [
-            'token' => Auth::user()->token(),
             'userId' => Auth::user()->id,
             'status' => 'success',
             'code' => 200

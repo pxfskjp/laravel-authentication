@@ -1,12 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controller;
 
 use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class UserControllerTest extends TestCase
 {
@@ -36,13 +35,11 @@ class UserControllerTest extends TestCase
         $this->json('GET', $this->authenticatedUserIdUrl)
             ->assertStatus(200)
             ->assertJsonStructure([
-                'token',
                 'userId',
                 'status',
                 'code',
             ])
             ->json([
-                'token' => $this->user->token(),
                 'userId' => $this->user->id
             ]);
     }
