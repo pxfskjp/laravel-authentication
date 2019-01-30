@@ -27,9 +27,7 @@ class LayerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('App\Services\LoginService', function (Application $app) {
-            return new LoginService(
-                $app->make('App\Repositories\UserRepository')
-            );
+            return new LoginService();
         });
         $this->app->bind(
             'App\Services\Contracts\AuthenticationServiceInterface',

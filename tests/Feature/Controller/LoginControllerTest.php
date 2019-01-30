@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controller;
 
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
