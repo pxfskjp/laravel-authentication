@@ -16,7 +16,7 @@ After the git clone, run this commands & editions one after one to start the app
 ##### * npm install
 ##### * php artisan key:generate
 ##### * set up your database user & password in the .env file
-##### * create the mysql database by and set the name to .env file
+##### * create the mysql database and set the name to .env file
 ##### * php artisan migrate
 ##### * php artisan passport:install
 ##### * copy the new generated passport-client secret from console or from your database and paste in in your .env key PASSPORT_CLIENT_SECRET
