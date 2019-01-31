@@ -7,6 +7,7 @@ Hope you will find some useful info for your needs!
 * Laravel v.5.7
 * Laravel Passport v.7.0
 * Vue v.2.5.22
+* Vuex v.3.0.1
 
 ### Installation: ###
 
