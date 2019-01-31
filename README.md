@@ -1,29 +1,26 @@
-# README #
+# Laravel Passport & Vue - authentication #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This is the working sample of the integration of the Laravel Passport and the usage of the JWT for your API.
+Hope you will find some useful info for your needs!
 
-### What is this repository for? ###
+### Installation: ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+After the git clone, run this commands one after one to start the application:
+#### * composer install
+#### * npm install
+#### * php artisan key:generate
+#### * php artisan migrate
+#### * php artisan passport:install
+#### * copy the new generated passport-client secret from console or from your database and paste in in your .env key PASSPORT_CLIENT_SECRET
+#### * php artisan optimize
+#### * php artisan serve --host=0.0.0.0
 
-### How do I get set up? ###
+Enjoy!
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### To run the unit tests: ###
 
-### Contribution guidelines ###
+#### * php artisan config:cache --env=testing 
+or
+#### * php artisan config:clear
+#### * vendor/bin/phpunit --verbose -c phpunit.xml
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
