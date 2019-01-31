@@ -11,7 +11,7 @@ Hope you will find some useful info for your needs!
 
 ### Installation: ###
 
-After the git clone, run this commands one after one to start the application:
+After the git clone, run this commands & editions one after one to start the application:
 ##### * composer install
 ##### * npm install
 ##### * php artisan key:generate
