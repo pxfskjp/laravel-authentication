@@ -3,9 +3,8 @@ import JwtService from "../common/jwt.service";
 
 import {CHECK_AUTH} from "./actions.type"
 
-import {SET_AUTH, SET_ERROR, RESET_AUTH, CLEAR_ERRORS} from "../store/mutations.type";
+import {SET_AUTH, SET_ERROR, RESET_AUTH, CLEAR_ERRORS} from "./mutations.type";
 import {LOGIN, LOGOUT, REGISTER} from "./actions.type";
-import {PURGE_AUTH} from "../../../../examples/vue-realworld-example-app/src/store/mutations.type";
 
 const getDefaultState = () => {
     return {
