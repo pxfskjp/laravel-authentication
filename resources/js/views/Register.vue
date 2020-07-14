@@ -7,7 +7,7 @@
                               v-show="registrationErrors.length > 0">
                     <ul>
                         <li v-for="error in registrationErrors">
-                            {{ error.message }}
+                            {{ error }}
                         </li>
                     </ul>
                 </b-form-group>

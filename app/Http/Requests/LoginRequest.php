@@ -24,8 +24,14 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'user.identity' => 'required|between:3,254',
-            'user.password' => 'required|between:8,36'
+            'login' => [
+                'required',
+                'between:3,254',
+            ],
+            'password' => [
+                'required',
+                'between:8,36',
+            ]
         ];
     }
 }

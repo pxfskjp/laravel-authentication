@@ -1,5 +1,6 @@
 import ApiService from "../../../api/api.service";
 import JwtService from "../../../common/jwt.service"
+import Vue from 'vue';
 
 const state = {
     token: null,
@@ -33,9 +34,16 @@ const mutations = {
     clearErrors(state) {
         state.errors = [];
     },
-    setError(state, {target, message}) {
-        state.errors[target] = [];
-        state.errors[target].push({message: message});
+    setError(state, {target, errors}) {
+
+        console.log('Set errors');
+
+        Vue.set(state.errors, target, []);
+
+        console.log('Assigned errors:' + errors);
+
+        for (let key in errors)
+            state.errors[target].push(errors[key][0]);
     },
     setUser(state, data) {
         state.isAuthenticated = true;
@@ -55,11 +63,11 @@ const mutations = {
 const actions = {
     login(context, credentials) {
         return new Promise((resolve, reject) => {
-            ApiService.post("api/users/login", {user: credentials})
+            ApiService.post("api/users/login", credentials)
                 .then(({data}) => {
                     context.commit("clearErrors");
                     context.commit(
-                        "setUser", {userId: data.userId, token: data.token}
+                        "setUser", {userId: data.user_id, token: data.token}
                     );
                     resolve(data);
                 })
@@ -92,16 +100,22 @@ const actions = {
     },
     register(context, credentials) {
         return new Promise((resolve, reject) => {
-            ApiService.post("api/users", {user: credentials})
+            ApiService.post("api/users", credentials)
                 .then(({data}) => {
-                    context.commit("setUser", {userId: data.userId, token: data.token});
+                    context.commit("setUser", {userId: data.user_id, token: data.token});
                     resolve(data);
                 })
                 .catch(({response}) => {
-                    context.commit(
-                        "setError",
-                        {target: 'register', message: response.data.error}
-                    );
+
+                    if(response.status === 422) {
+
+                        console.log(response.data.errors);
+
+                        context.commit(
+                            "setError",
+                            {target: 'register', errors: response.data.errors}
+                        );
+                    }
                     reject(response);
                 });
         });

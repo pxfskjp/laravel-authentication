@@ -9,9 +9,18 @@
 namespace App\Services\Contracts;
 
 
+use App\Http\Entities\RegistrationResponseEntity;
 use App\Http\Requests\RegistrationRequest;
 
+/**
+ * Interface RegistrationServiceInterface
+ * @package App\Services\Contracts
+ */
 interface RegistrationServiceInterface
 {
-    public function register(RegistrationRequest $request): array;
+    /**
+     * @param array $payload
+     * @return RegistrationResponseEntity|null
+     */
+    public function register(array $payload): ?RegistrationResponseEntity;
 }

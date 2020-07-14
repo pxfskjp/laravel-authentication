@@ -2,31 +2,50 @@
 
 namespace App\Services;
 
+use App\Http\Entities\LoginResponseEntity;
 use App\Services\Contracts\AuthenticationServiceInterface;
-use App\Http\Requests\LoginRequest;
 
 
+/**
+ * Class LoginService
+ * @package App\Services
+ */
 class LoginService implements AuthenticationServiceInterface
 {
-    public function login(LoginRequest $request): array
+    /**
+     * @param string $login
+     * @param string $password
+     * @return LoginResponseEntity|null
+     */
+    public function login(string $login, string $password): ?LoginResponseEntity
     {
-        $identity = filter_var($request->user['identity'], FILTER_VALIDATE_EMAIL)
-            ? 'email' : 'login';
+        $identity = filter_var($login, FILTER_VALIDATE_EMAIL)
+            ? 'email'
+            : 'login';
+
         $credentials = [
-            $identity => $request->user['identity'],
-            'password' => $request->user['password']
+            $identity => $login,
+            'password' => $password
         ];
-        return auth()->attempt($credentials)
-            ? [
-                'token' => auth()->user()->createToken('JWT')->accessToken,
-                'userId' => auth()->user()->id,
-                'status' => 'success',
-                'code' => 200]
-            : ['status' => 'error',
-                'error' => 'User credentials is invalid or user not found! Try again.',
-                'code' => 401];
+
+        $authResult = auth()->attempt($credentials);
+
+        if($authResult) {
+
+            $user = auth()->user();
+
+            return new LoginResponseEntity([
+                'token' => $user->createToken('JWT')->accessToken,
+                'user_id' => $user->id,
+            ]);
+        }
+
+        return null;
     }
 
+    /**
+     * @return array
+     */
     public function logout(): array
     {
         return auth()->user()->token()->revoke()

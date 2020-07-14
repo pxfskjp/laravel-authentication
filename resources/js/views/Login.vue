@@ -94,7 +94,7 @@
 
                 this.$store
                     .dispatch("auth/login", {
-                        identity: this.form.identity,
+                        login: this.form.identity,
                         password: this.form.password
                     })
                     .then(() => this.$router.push({name: "home"}));

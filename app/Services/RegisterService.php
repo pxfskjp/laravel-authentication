@@ -3,33 +3,59 @@
 namespace App\Services;
 
 
+use App\Http\Entities\RegistrationResponseEntity;
 use App\Http\Requests\RegistrationRequest;
 use App\Repositories\Contracts\RepositoryInterface;
 use App\Services\Contracts\JWTServiceInterface;
 use App\Services\Contracts\RegistrationServiceInterface;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class RegisterService
+ * @package App\Services
+ */
 class RegisterService implements RegistrationServiceInterface
 {
+    /**
+     * @var RepositoryInterface
+     */
     protected $repository;
 
+    /**
+     * RegisterService constructor.
+     * @param RepositoryInterface $repository
+     */
     public function __construct(RepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    public function register(RegistrationRequest $request): array
+    /**
+     * @param array $payload
+     * @return RegistrationResponseEntity|null
+     */
+    public function register(array $payload): ?RegistrationResponseEntity
     {
-        $user = $request->user;
-        $user['password'] = Hash::make($user['password']);
-        $user = $this->repository->create($user);
-        return $user->id
-            ? ['token' => $user->createToken('AuthToken')->accessToken,
-                'userId' => $user->id,
+        $password = Hash::make($payload['password']);
+
+        $params = [
+            'login' => $payload['login'],
+            'password' => $password,
+            'email' => $payload['email'],
+        ];
+
+        $user = $this->repository
+            ->create($params);
+
+        if($user) {
+
+            return new RegistrationResponseEntity([
+                'token' => $user->createToken('JWT')->accessToken,
+                'user_id' => $user->id,
                 'status' => 'success',
-                'code' => 200]
-            : ['status' => 'error',
-                'message' => 'Registration error occurs!',
-                'code' => 422];
+            ]);
+        }
+
+        return null;
     }
 }

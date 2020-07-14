@@ -2245,7 +2245,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.$store.dispatch("auth/login", {
-        identity: this.form.identity,
+        login: this.form.identity,
         password: this.form.password
       }).then(function () {
         return _this.$router.push({
@@ -68652,7 +68652,7 @@ var render = function() {
                             return _c("li", [
                               _vm._v(
                                 "\n                        " +
-                                  _vm._s(error.message) +
+                                  _vm._s(error) +
                                   "\n                    "
                               )
                             ])
@@ -85815,7 +85815,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  mode: 'history',
+  //mode: 'history',
   routes: [{
     path: '/',
     name: 'home',
@@ -85913,6 +85913,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_api_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../api/api.service */ "./resources/js/api/api.service.js");
 /* harmony import */ var _common_jwt_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../common/jwt.service */ "./resources/js/common/jwt.service.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 var state = {
@@ -85947,11 +85950,14 @@ var mutations = {
   },
   setError: function setError(state, _ref) {
     var target = _ref.target,
-        message = _ref.message;
-    state.errors[target] = [];
-    state.errors[target].push({
-      message: message
-    });
+        errors = _ref.errors;
+    console.log('Set errors');
+    vue__WEBPACK_IMPORTED_MODULE_2___default.a.set(state.errors, target, []);
+    console.log('Assigned errors:' + errors);
+
+    for (var key in errors) {
+      state.errors[target].push(errors[key][0]);
+    }
   },
   setUser: function setUser(state, data) {
     state.isAuthenticated = true;
@@ -85970,13 +85976,11 @@ var mutations = {
 var actions = {
   login: function login(context, credentials) {
     return new Promise(function (resolve, reject) {
-      _api_api_service__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/users/login", {
-        user: credentials
-      }).then(function (_ref2) {
+      _api_api_service__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/users/login", credentials).then(function (_ref2) {
         var data = _ref2.data;
         context.commit("clearErrors");
         context.commit("setUser", {
-          userId: data.userId,
+          userId: data.user_id,
           token: data.token
         });
         resolve(data);
@@ -86012,21 +86016,24 @@ var actions = {
   },
   register: function register(context, credentials) {
     return new Promise(function (resolve, reject) {
-      _api_api_service__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/users", {
-        user: credentials
-      }).then(function (_ref6) {
+      _api_api_service__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/users", credentials).then(function (_ref6) {
         var data = _ref6.data;
         context.commit("setUser", {
-          userId: data.userId,
+          userId: data.user_id,
           token: data.token
         });
         resolve(data);
       })["catch"](function (_ref7) {
         var response = _ref7.response;
-        context.commit("setError", {
-          target: 'register',
-          message: response.data.error
-        });
+
+        if (response.status === 422) {
+          console.log(response.data.errors);
+          context.commit("setError", {
+            target: 'register',
+            errors: response.data.errors
+          });
+        }
+
         reject(response);
       });
     });

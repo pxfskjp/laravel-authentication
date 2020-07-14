@@ -6,37 +6,86 @@ namespace App\Repositories\Contracts;
 
  use Illuminate\Database\Eloquent\Model;
 
+ /**
+  * Class AbstractRepository
+  * @package App\Repositories\Contracts
+  */
  abstract class AbstractRepository implements RepositoryInterface
 {
-    protected $model;
+     /**
+      * @var Model
+      */
+     protected $model;
 
-    public function __construct(Model $model)
+     /**
+      * AbstractRepository constructor.
+      * @param Model $model
+      */
+     public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
-     public function all()
+     /**
+      * @param array $data
+      * @return mixed
+      */
+     public function create(array $data)
      {
-         return $this->model->all();
+         $result = $this->model
+             ->create($data);
+
+         if($result)
+             return $result;
+
+         return null;
      }
 
-     public function create(array $data): Model
+     /**
+      * @param array $data
+      * @param $id
+      * @return bool|null
+      */
+     public function update(array $data, $id): ?bool
      {
-         return $this->model->create($data);
+         $result = $this->model
+             ->where('id', '=', $id)
+             ->update($data);
+
+         if(isset($result))
+             return $result;
+
+         return null;
      }
 
-     public function update(array $data, $id)
-     {
-         return $this->model->find($id)->update($data);
-     }
-
+     /**
+      * @param $id
+      * @return mixed
+      */
      public function delete($id)
      {
-         return $this->model->find($id)->delete();
+         $result = $this->model
+             ->where('id', '=', $id)
+             ->delete();
+
+         if(isset($result))
+             return $result;
+
+         return null;
      }
 
+     /**
+      * @param $id
+      * @return mixed
+      */
      public function find($id)
      {
-         return $this->model->find($id);
+         $result = $this->model
+             ->find($id);
+
+         if($result)
+             return $result;
+
+         return null;
      }
  }

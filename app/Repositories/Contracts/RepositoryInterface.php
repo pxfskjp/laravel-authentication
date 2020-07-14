@@ -11,16 +11,36 @@ namespace App\Repositories\Contracts;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
+/**
+ * Interface RepositoryInterface
+ * @package App\Repositories\Contracts
+ */
 interface RepositoryInterface
 {
-    public function all();
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function create(array $data);
 
-    public function create(array $data): Model;
+    /**
+     * @param array $data
+     * @param $id
+     * @return bool|null
+     */
+    public function update(array $data, int $id): ?bool;
 
-    public function update(array $data, $id);
-
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function delete($id);
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function find($id);
 }
