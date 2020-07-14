@@ -1,78 +1,103 @@
 <template>
     <div id="loginForm" class="pt-5">
-        <b-form v-on:submit.prevent="signIn(form.identity,form.password)"
-                class="mx-auto justify-content-center w-50 ">
-            <b-form-group id="loginErrors" class="errorsBlock"
-                          v-show="containsErrors()">
-                <ul v-for="error in getErrors()">
-                    <li>
-                        {{ error.message }}
-                    </li>
-                </ul>
-            </b-form-group>
-            <b-form-group id="loginGroup"
-                          horizontal
-                          label="Login: "
-                          label-for="login">
-                <b-form-input id="login"
-                              name="login"
-                              type="text"
-                              v-model="form.identity"
-                              v-validate="'required'"/>
-                <b-form-row class="text-danger">
-                    <i v-show="errors.has('login')" class="fa fa-warning"></i>
-                    <span v-show="errors.has('login')" class="help is-danger">
-                        {{ errors.first('login') }}
-                    </span>
-                </b-form-row>
-            </b-form-group>
-            <b-form-group id="passwordGroup"
-                          horizontal
-                          label="Password:"
-                          label-for="password">
-                <b-form-input id="password"
-                              name="password"
-                              type="password"
-                              v-model="form.password"
-                              v-validate="'required|min:8|max:36'"/>
-                <b-form-row class="text-danger">
-                    <i v-show="errors.has('password')" class="fa fa-warning"></i>
-                    <span v-show="errors.has('password')" class="help is-danger">
-                        {{ errors.first('password') }}
-                    </span>
-                </b-form-row>
-            </b-form-group>
-            <b-form-group class="text-center">
-                <b-button type="submit" variant="primary">Sign-in</b-button>
-            </b-form-group>
-        </b-form>
+        <ValidationObserver ref="form" v-slot="{ invalid }">
+            <b-form v-on:submit.prevent="signIn(form.identity,form.password)"
+                    class="mx-auto justify-content-center w-50 ">
+
+                <b-form-group id="loginErrors" class="errorsBlock"
+                              v-show="loginErrors.length > 0">
+                    <ul v-for="error in loginErrors">
+                        <li>
+                            {{ error.message }}
+                        </li>
+                    </ul>
+                </b-form-group>
+
+                <b-form-group id="loginGroup"
+                              horizontal
+                              label="Login: "
+                              label-for="login">
+                    <ValidationProvider placeholder="Login"
+                                        name="Login"
+                                        rules="required|alpha_num|min:3|max:254"
+                                        v-slot="{ errors }">
+                        <b-form-input id="login"
+                                      type="text"
+                                      v-model="form.identity"/>
+                        <b-form-row class="text-danger">
+                            <template v-show="errors.length > 0">
+                                <i class="fa fa-warning"></i>
+                                <span class="help is-danger">
+                                    {{ errors[0] }}
+                                </span>
+                            </template>
+                        </b-form-row>
+                    </ValidationProvider>
+                </b-form-group>
+
+                <b-form-group id="passwordGroup"
+                              horizontal
+                              label="Password:"
+                              label-for="password">
+                    <ValidationProvider name="Password"
+                                        rules="required|alpha_num|min:8|max:36"
+                                        v-slot="{ errors }">
+                        <b-form-input id="password"
+                                      type="password"
+                                      v-model="form.password"/>
+                        <b-form-row class="text-danger">
+                            <template v-show="errors.length > 0">
+                                <i class="fa fa-warning"></i>
+                                <span class="help is-danger">
+                                    {{ errors[0]}}
+                                </span>
+                            </template>
+                        </b-form-row>
+                    </ValidationProvider>
+
+                </b-form-group>
+
+                <b-form-group class="text-center">
+                    <b-button :disabled="invalid"
+                              type="submit"
+                              variant="primary">Sign-in
+                    </b-button>
+                </b-form-group>
+            </b-form>
+        </ValidationObserver>
     </div>
 </template>
 <script>
-    import { LOGIN } from "../store/actions.type";
+    import {mapGetters} from 'vuex';
+    import {ValidationObserver, ValidationProvider} from "vee-validate";
 
     export default {
-        data: () => ({
-            form: {
+        components: {
+            ValidationObserver,
+            ValidationProvider
+        },
+        data() {
+            return {
+                form: {
                     identity: '',
                     password: ''
                 }
-        }),
+            }
+        },
+        computed: {
+            ...mapGetters("auth", {
+                loginErrors: "getLoginErrors"
+            })
+        },
         methods: {
-            getErrors(){
-                return this.$store.getters.getErrors.login;
-            },
-            containsErrors(){
-              return this.$store.getters.getErrors.login.length > 0;
-            },
-            signIn(identity, password){
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        this.$store
-                            .dispatch(LOGIN, {identity, password})
-                            .then(() => this.$router.push({name: "home"}));
-                    }
-                });
+            signIn() {
+
+                this.$store
+                    .dispatch("auth/login", {
+                        identity: this.form.identity,
+                        password: this.form.password
+                    })
+                    .then(() => this.$router.push({name: "home"}));
             }
         }
     }

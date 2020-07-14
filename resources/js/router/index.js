@@ -6,12 +6,11 @@ import store from '../store'
 import App from '../App';
 import Login from '../views/Login';
 import Register from '../views/Register';
-import {CHECK_AUTH} from '../store/actions.type'
 
 Vue.use(VueRouter);
 
 const router =  new VueRouter({
-   // mode: 'history',
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -44,7 +43,6 @@ const router =  new VueRouter({
 });
 
 /*
-
 router.beforeEach((to, from, next) => {
     if(to.meta.requiresAuth && !store.getters.isAuthenticated){
         next('/login');
@@ -56,8 +54,9 @@ router.beforeEach((to, from, next) => {
 });
 */
 
+
 router.beforeEach((to, from, next) =>
-    Promise.all([store.dispatch(CHECK_AUTH)]).then(next)
+    Promise.all([store.dispatch("auth/checkAuth")]).then(next)
 );
 
 
