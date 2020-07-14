@@ -36,11 +36,7 @@ const mutations = {
     },
     setError(state, {target, errors}) {
 
-        console.log('Set errors');
-
         Vue.set(state.errors, target, []);
-
-        console.log('Assigned errors:' + errors);
 
         for (let key in errors)
             state.errors[target].push(errors[key][0]);
@@ -108,8 +104,6 @@ const actions = {
                 .catch(({response}) => {
 
                     if(response.status === 422) {
-
-                        console.log(response.data.errors);
 
                         context.commit(
                             "setError",
