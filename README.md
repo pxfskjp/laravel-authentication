@@ -4,12 +4,12 @@ This is the working sample of the integration of the Laravel Passport and the us
 Hope you will find some useful info for your needs!
 
 ### Versions: ###
-* Laravel v.5.7
-* Laravel Passport v.7.0
-* Vue v.2.5.22
-* Vuex v.3.0.1
+* Laravel v.7.0
+* Laravel Passport v.9.3
+* Vue v.2.6.11
+* Vuex v.3.5.1
 
-### Installation: ###
+### Manual Installation: ###
 
 After the git clone, run this commands & editions one after one to start the application:
 ##### * composer install
@@ -22,6 +22,7 @@ After the git clone, run this commands & editions one after one to start the app
 ##### * copy the new generated passport-client secret from console or from your database and paste in in your .env key PASSPORT_CLIENT_SECRET
 ##### * php artisan optimize
 ##### * php artisan serve --host=0.0.0.0
+##### * npm run watch
 
 Enjoy!
 
