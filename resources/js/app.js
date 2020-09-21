@@ -14,7 +14,8 @@ Vue.use(BootstrapVue);
 ApiService.init();
 
 const app = new Vue({
+    el: '#app',
     router,
     store,
     render: h => h(App)
-}).$mount('#app');
+});
