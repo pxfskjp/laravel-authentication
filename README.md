@@ -1,7 +1,4 @@
-# Laravel Passport & Vue - authentication #
-
-This is the working sample of the integration of the Laravel Passport and the usage of the JWT for your API.
-Hope you will find some useful info for your needs!
+# Laravel Vue authentication #
 
 ### Versions: ###
 * Laravel v.7.0
@@ -10,34 +7,15 @@ Hope you will find some useful info for your needs!
 * Vuex v.3.5.1
 
 ### Manual Installation: ###
-
-After the git clone, run this commands & editions one after one to start the application:
-##### * composer install
-##### * npm install
-##### * php artisan key:generate
-##### * set up your database user & password in the .env file (copy the structure from the .env.example file)
-##### * create the mysql database and set the name to .env file
-##### * php artisan migrate
-##### * php artisan passport:install
-##### * copy the new generated passport-client secret from console or from your database and paste it in your .env key PASSPORT_CLIENT_SECRET
-##### * php artisan optimize
-##### * php artisan serve --host=0.0.0.0
-##### * npm run watch
-
-Enjoy!
-
-### Generate OpenAPI (Swagger) documentation: ###
-
-##### 1. Run artisan command: php artisan l5-swagger:generate
-##### 2. Open browser on address http://your-deploy-address:port/api/documentation
-
-### Prepare the correct config before testing: ###
-
-Need to make some small preparation to run the correct .env file and run:
-##### * php artisan config:cache --env=testing 
-or
-##### * php artisan config:clear
-
-### Run all unit tests from test folder:
-##### * vendor/bin/phpunit --verbose -c phpunit.xml
+* composer install
+* npm install
+* php artisan key:generate
+* set up your database user & password in the .env file (copy the structure from the .env.example file)
+* create the mysql database and set the name to .env file
+* php artisan migrate
+* php artisan passport:install
+* copy the new generated passport-client secret from console or from your database and paste it in your .env key PASSPORT_CLIENT_SECRET
+* php artisan optimize
+* php artisan serve --host=0.0.0.0
+* npm run watch
 
